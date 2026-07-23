@@ -23,6 +23,95 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
 
+  /* ========================== Search Overlay ========================== */
+  const searchOverlay = document.getElementById('searchOverlay');
+  const searchInput   = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+  const searchEmpty   = document.getElementById('searchEmpty');
+  const searchClose   = document.getElementById('searchClose');
+
+  function openSearch() {
+    if (!searchOverlay) return;
+    searchOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => searchInput && searchInput.focus(), 80);
+  }
+
+  function closeSearch() {
+    if (!searchOverlay) return;
+    searchOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (searchInput) { searchInput.value = ''; }
+    if (searchResults) searchResults.innerHTML = '';
+    if (searchEmpty)   searchEmpty.classList.remove('is-visible');
+  }
+
+  // Open on navbar search button click
+  document.querySelectorAll('.icon-btn[aria-label="Search"]').forEach(btn => {
+    btn.addEventListener('click', openSearch);
+  });
+
+  // Close button
+  searchClose && searchClose.addEventListener('click', closeSearch);
+
+  // Close on backdrop click
+  searchOverlay && searchOverlay.addEventListener('click', (e) => {
+    if (e.target === searchOverlay) closeSearch();
+  });
+
+  // Close on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && searchOverlay && searchOverlay.classList.contains('is-open')) {
+      closeSearch();
+    }
+  });
+
+  // Live search logic
+  function runSearch(query) {
+    if (!searchResults || !searchEmpty) return;
+    query = query.trim().toLowerCase();
+    if (!query) {
+      searchResults.innerHTML = '';
+      searchEmpty.classList.remove('is-visible');
+      return;
+    }
+
+    // Build combined pool from data.js globals
+    const allItems = [];
+    if (typeof PLASTIC_SURGERY_PROCEDURES !== 'undefined') {
+      PLASTIC_SURGERY_PROCEDURES.forEach(p => allItems.push({ ...p, page: 'plastic-surgery.html' }));
+    }
+    if (typeof AESTHETIC_PROCEDURES !== 'undefined') {
+      AESTHETIC_PROCEDURES.forEach(p => allItems.push({ ...p, page: 'aesthetic-procedures.html' }));
+    }
+
+    const hits = allItems.filter(p =>
+      p.name.toLowerCase().includes(query) ||
+      p.cat.toLowerCase().includes(query) ||
+      (p.overview && p.overview.toLowerCase().includes(query))
+    ).slice(0, 10);
+
+    if (hits.length === 0) {
+      searchResults.innerHTML = '';
+      searchEmpty.classList.add('is-visible');
+      return;
+    }
+
+    searchEmpty.classList.remove('is-visible');
+    searchResults.innerHTML = hits.map(p => `
+      <a class="search-result-item" href="${p.page}" tabindex="0">
+        <div class="search-result-item__icon"><i class="${p.icon}"></i></div>
+        <div class="search-result-item__body">
+          <div class="search-result-item__name">${p.name}</div>
+          <div class="search-result-item__cat">${p.cat}</div>
+        </div>
+        <i class="fa-solid fa-arrow-right search-result-item__arrow"></i>
+      </a>`).join('');
+  }
+
+  searchInput && searchInput.addEventListener('input', () => runSearch(searchInput.value));
+
+
   const menuToggle = document.querySelector('.menu-toggle');
   const mobileMenu = document.querySelector('.mobile-menu');
   const closeMobile = document.querySelector('.close-mobile');
