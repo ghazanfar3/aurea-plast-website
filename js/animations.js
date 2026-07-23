@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ------------------------------ Card image zoom on hover ------------------------------ */
-  document.querySelectorAll('.proc-card, .article-card').forEach(card => {
+  document.querySelectorAll('.proc-card').forEach(card => {
     const media = card.querySelector('[class*="media"]');
     if (!media) return;
     card.addEventListener('mouseenter', () => gsap.to(media, { scale: 1.06, duration: 0.6, ease: 'power2.out' }));
