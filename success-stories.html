@@ -113,6 +113,23 @@
   </div>
 </footer>
 
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Site search">
+  <div class="search-overlay__inner">
+    <div class="search-overlay__bar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input class="search-overlay__input" id="searchInput" type="search"
+             placeholder="Search procedures, treatments…" autocomplete="off" spellcheck="false">
+      <button class="search-overlay__close" id="searchClose" aria-label="Close search">
+        <i class="fa-solid fa-xmark"></i> ESC
+      </button>
+    </div>
+    <div class="search-overlay__hint">Type to search all procedures &amp; treatments</div>
+    <div class="search-overlay__results" id="searchResults"></div>
+    <div class="search-overlay__empty" id="searchEmpty">No results found — try a different term.</div>
+  </div>
+</div>
+
 <div class="floating-stack">
   <a href="https://wa.me/923XXXXXXXXX" class="fab fab-whatsapp" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
   <button class="fab fab-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
