@@ -291,16 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ------------------------------ Newsletter ------------------------------ */
-  document.querySelectorAll('.newsletter-form').forEach(form => {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = form.querySelector('button');
-      const original = btn.innerHTML;
-      btn.innerHTML = '<i class="fa-solid fa-check"></i>';
-      form.querySelector('input').value = '';
-      setTimeout(() => btn.innerHTML = original, 1800);
-    });
-  });
+  /* Handled by js/forms.js */
 
   /* ------------------------------ Testimonials Swiper ------------------------------ */
   if (window.Swiper && document.querySelector('.testi-swiper')) {
@@ -532,86 +523,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ============================ Appointment Wizard ============================ */
-  const wizard = document.querySelector('#appointmentWizard');
-  if (wizard) {
-    const steps = Array.from(wizard.querySelectorAll('.wizard-panel'));
-    const dots = Array.from(wizard.querySelectorAll('.wizard-step'));
-    let current = 0;
-    const state = { doctor: '', procedure: '', date: '', time: '' };
-
-    function showStep(i) {
-      steps.forEach((s, idx) => s.classList.toggle('is-active', idx === i));
-      dots.forEach((d, idx) => {
-        d.classList.toggle('is-active', idx === i);
-        d.classList.toggle('is-done', idx < i);
-      });
-      if (i === steps.length - 1) fillReview();
-      wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    wizard.querySelectorAll('[data-next]').forEach(btn => btn.addEventListener('click', () => {
-      if (current < steps.length - 1) { current++; showStep(current); }
-    }));
-    wizard.querySelectorAll('[data-prev]').forEach(btn => btn.addEventListener('click', () => {
-      if (current > 0) { current--; showStep(current); }
-    }));
-
-    wizard.querySelectorAll('[data-doctor]').forEach(card => card.addEventListener('click', () => {
-      wizard.querySelectorAll('[data-doctor]').forEach(c => c.classList.remove('is-selected'));
-      card.classList.add('is-selected');
-      state.doctor = card.dataset.doctor;
-    }));
-    wizard.querySelectorAll('[data-procedure]').forEach(card => card.addEventListener('click', () => {
-      wizard.querySelectorAll('[data-procedure]').forEach(c => c.classList.remove('is-selected'));
-      card.classList.add('is-selected');
-      state.procedure = card.dataset.procedure;
-    }));
-    wizard.querySelectorAll('[data-time]').forEach(chip => chip.addEventListener('click', () => {
-      wizard.querySelectorAll('[data-time]').forEach(c => c.classList.remove('is-selected'));
-      chip.classList.add('is-selected');
-      state.time = chip.dataset.time;
-    }));
-    const dateInput = wizard.querySelector('#apptDate');
-    dateInput && dateInput.addEventListener('change', () => state.date = dateInput.value);
-
-    function fillReview() {
-      const nameVal = wizard.querySelector('#apptName')?.value || '—';
-      const phoneVal = wizard.querySelector('#apptPhone')?.value || '—';
-      const emailVal = wizard.querySelector('#apptEmail')?.value || '—';
-      const rows = {
-        reviewName: nameVal, reviewPhone: phoneVal, reviewEmail: emailVal,
-        reviewDoctor: state.doctor || '—', reviewProcedure: state.procedure || '—',
-        reviewDate: state.date || '—', reviewTime: state.time || '—'
-      };
-      Object.entries(rows).forEach(([id, val]) => {
-        const el = wizard.querySelector('#' + id);
-        if (el) el.textContent = val;
-      });
-    }
-
-    const uploadDrop = wizard.querySelector('.upload-drop');
-    const fileInput = wizard.querySelector('#apptFiles');
-    const fileList = wizard.querySelector('.file-list');
-    if (uploadDrop && fileInput) {
-      uploadDrop.addEventListener('click', () => fileInput.click());
-      ['dragenter', 'dragover'].forEach(evt => uploadDrop.addEventListener(evt, (e) => { e.preventDefault(); uploadDrop.classList.add('is-drag'); }));
-      ['dragleave', 'drop'].forEach(evt => uploadDrop.addEventListener(evt, (e) => { e.preventDefault(); uploadDrop.classList.remove('is-drag'); }));
-      uploadDrop.addEventListener('drop', (e) => { fileInput.files = e.dataTransfer.files; listFiles(); });
-      fileInput.addEventListener('change', listFiles);
-      function listFiles() {
-        fileList.innerHTML = Array.from(fileInput.files).map(f => `<span><i class="fa-solid fa-paperclip"></i> ${f.name}</span>`).join('');
-      }
-    }
-
-    const finalForm = wizard.querySelector('#appointmentForm');
-    finalForm && finalForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      wizard.querySelector('.wizard-progress').style.display = 'none';
-      steps.forEach(s => s.style.display = 'none');
-      wizard.querySelector('.appt-success').classList.add('is-visible');
-    });
-
-    showStep(0);
-  }
+  /* Handled by js/forms.js */
 
 });
