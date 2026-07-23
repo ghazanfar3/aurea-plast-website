@@ -311,15 +311,20 @@ function initContactForm() {
   const form = document.querySelector('#contactForm');
   if (!form) return;
 
-  // Replace time input with a select
-  const timeField = form.querySelector('input[name="time"]');
-  if (timeField) {
-    const select = document.createElement('select');
-    select.name = 'time';
-    select.id   = 'contactTime';
-    // Copy classes/styles if any
-    buildTimeSelect(select);
-    timeField.replaceWith(select);
+  // Populate the time select (already a <select> in HTML, just needs options)
+  const existingSelect = form.querySelector('#contactTime, select[name="time"]');
+  if (existingSelect) {
+    buildTimeSelect(existingSelect);
+  } else {
+    // Fallback: replace any time input with a new select
+    const timeField = form.querySelector('input[name="time"]');
+    if (timeField) {
+      const select = document.createElement('select');
+      select.name = 'time';
+      select.id   = 'contactTime';
+      buildTimeSelect(select);
+      timeField.replaceWith(select);
+    }
   }
 
   // Inject validation error message element
