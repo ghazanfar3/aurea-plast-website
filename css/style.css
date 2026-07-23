@@ -287,23 +287,49 @@ p.lead{
 .nav-link:hover::after, .nav-link.active::after{ width:100%; }
 
 .has-mega{ position:relative; }
+
+/* The menu sits flush to 100% (no gap in the DOM hit area).
+   Visual spacing comes from padding-top instead of a top offset,
+   so the cursor never crosses an uncovered gap when moving down. */
 .mega-menu{
-  position:absolute; top:calc(100% + 26px); left:50%; transform:translateX(-50%) translateY(10px);
+  position:absolute; top:100%; left:50%;
+  transform:translateX(-50%) translateY(10px);
   width:min(760px,86vw);
   background:var(--white); border-radius:var(--radius-m);
   box-shadow:var(--shadow-lift);
-  padding:34px;
+  /* top padding recreates the visual 26px gap; inner content starts below it */
+  padding:60px 34px 34px;
+  margin-top:0;
   display:grid; grid-template-columns:1fr 1fr; gap:8px 34px;
   opacity:0; visibility:hidden; pointer-events:none;
   transition:opacity var(--dur-s) var(--ease), transform var(--dur-s) var(--ease);
   color:var(--dark);
 }
-.has-mega:hover .mega-menu, .has-mega:focus-within .mega-menu{
+
+/* Invisible bridge: fills any remaining gap between li bottom and menu top
+   so the cursor is always over .has-mega during the transition */
+.has-mega::after{
+  content:'';
+  position:absolute;
+  top:100%; left:-20px; right:-20px;
+  height:20px; /* covers the remaining gap */
+  background:transparent;
+  pointer-events:auto;
+  display:none; /* shown by JS when menu is open */
+}
+
+/* CSS-only open state (JS also controls .is-mega-open for the delay) */
+.has-mega.is-mega-open .mega-menu,
+.has-mega:focus-within .mega-menu{
   opacity:1; visibility:visible; pointer-events:auto; transform:translateX(-50%) translateY(0);
 }
+.has-mega.is-mega-open::after{ display:block; }
+
 .mega-col-title{ font-family:var(--font-heading); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--primary); margin-bottom:10px; display:block; }
 .mega-menu a{ display:block; font-size:.92rem; padding:7px 0; border-bottom:1px solid var(--hairline); }
 .mega-menu a:hover{ color:var(--primary); padding-left:4px; }
+/* Ensure last links are easily clickable */
+.mega-menu a:last-child{ border-bottom:none; }
 
 .nav-actions{ display:flex; align-items:center; gap:18px; }
 .icon-btn{ background:none; border:none; font-size:1rem; padding:4px; }
