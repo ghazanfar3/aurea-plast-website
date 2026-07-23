@@ -115,6 +115,77 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.querySelector('.menu-toggle');
   const mobileMenu = document.querySelector('.mobile-menu');
   const closeMobile = document.querySelector('.close-mobile');
+
+  /* ====================== Mega Menu — robust hover + delay =====================
+     Root cause of the bug was `top: calc(100% + 26px)` in CSS, creating a 26px
+     invisible gap between the nav <li> and the dropdown. Moving the cursor into
+     that gap fired mouseleave on .has-mega and hid the menu immediately.
+
+     Fix strategy:
+       1. CSS: menu now starts at top:100% (no gap). Visual spacing is padding-top.
+       2. CSS: ::after bridge covers any residual gap while open.
+       3. JS: .is-mega-open class drives visibility; 250ms close-delay timer
+          prevents flickering on accidental cursor movement.
+  ============================================================================ */
+  document.querySelectorAll('.has-mega').forEach(li => {
+    const menu = li.querySelector('.mega-menu');
+    if (!menu) return;
+
+    let closeTimer = null;
+
+    function openMega() {
+      clearTimeout(closeTimer);
+      li.classList.add('is-mega-open');
+      li.setAttribute('aria-expanded', 'true');
+    }
+
+    function scheduledClose() {
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(() => {
+        li.classList.remove('is-mega-open');
+        li.setAttribute('aria-expanded', 'false');
+      }, 250);
+    }
+
+    // Mouse events — covers the <li> and the menu (both are inside .has-mega)
+    li.addEventListener('mouseenter', openMega);
+    li.addEventListener('mouseleave', scheduledClose);
+
+    // If cursor re-enters during the delay window, cancel the close
+    menu.addEventListener('mouseenter', openMega);
+    menu.addEventListener('mouseleave', scheduledClose);
+
+    // Keyboard: Escape closes immediately
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        clearTimeout(closeTimer);
+        li.classList.remove('is-mega-open');
+        li.setAttribute('aria-expanded', 'false');
+        li.querySelector('.nav-link')?.focus();
+      }
+    });
+
+    // Touch: toggle on tap (mobile)
+    li.querySelector('.nav-link')?.addEventListener('click', (e) => {
+      // Only intercept if the mega menu is the destination (not a direct page link)
+      if (window.innerWidth < 900) return; // mobile uses the mobile drawer instead
+      if (!li.classList.contains('is-mega-open')) {
+        e.preventDefault();
+        openMega();
+      }
+    });
+  });
+
+  // Click outside closes all open mega menus immediately
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.has-mega')) {
+      document.querySelectorAll('.has-mega.is-mega-open').forEach(li => {
+        li.classList.remove('is-mega-open');
+        li.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
   menuToggle && menuToggle.addEventListener('click', () => mobileMenu.classList.add('is-open'));
   closeMobile && closeMobile.addEventListener('click', () => mobileMenu.classList.remove('is-open'));
   mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('is-open')));
