@@ -317,15 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (window.Swiper && document.querySelector('.article-swiper')) {
-    new Swiper('.article-swiper', {
-      slidesPerView: 1.1,
-      spaceBetween: 22,
-      breakpoints: { 720: { slidesPerView: 2 }, 1080: { slidesPerView: 3 } },
-      pagination: { el: '.article-pagination', clickable: true },
-    });
-  }
-
   /* ------------------------------ Contact / generic form validation ------------------------------ */
   document.querySelectorAll('form[data-validate]').forEach(form => {
     form.addEventListener('submit', (e) => {
