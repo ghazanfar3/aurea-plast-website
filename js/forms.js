@@ -9,7 +9,7 @@
    info@aureaplastclinic.com — click the link once to enable all future emails.
    ========================================================================== */
 
-const CLINIC_EMAIL = 'info@aureaplastclinic.com';
+const CLINIC_EMAIL = 'aureaplast@gmail.com';
 
 /* ------------------------------------------------------------------
    Generate 15-minute time slots: 2:00 PM → 10:00 PM
@@ -114,6 +114,20 @@ function initAppointmentWizard() {
   /* --- Next / Back --- */
   wizard.querySelectorAll('[data-next]').forEach(btn => {
     btn.addEventListener('click', () => {
+      // Validate Step 1 (Patient Details)
+      if (current === 0) {
+        let valid = true;
+        wizard.querySelectorAll('.wizard-panel:first-child [required]').forEach(field => {
+          if (!field.value.trim()) {
+            valid = false;
+            field.style.borderColor = '#c0503f';
+          } else {
+            field.style.borderColor = '';
+          }
+        });
+        if (!valid) return;
+      }
+      // Validate Step 4 (Time)
       if (current === 3) {
         if (!wState.time) {
           timeError.style.display = 'block';
