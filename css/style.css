@@ -408,6 +408,13 @@ p.lead{
 
 .hero__eyebrow{ color:var(--accent); }
 .hero__title{ margin-top:22px; }
+/* "Timeless" sits on the dark hero, where the default deep-blue em (--primary)
+   loses contrast. Lift it to a lighter on-brand blue with a whisper-soft glow
+   so it stays crisp and premium over both the navy and the photo. */
+.hero__title em{
+  color:#8FB8D9;
+  text-shadow:0 0 18px rgba(143,184,217,.28), 0 2px 10px rgba(5,28,48,.55);
+}
 .hero__title .line{ display:block; overflow:hidden; }
 .hero__title .line span{ display:inline-block; }
 .hero__thread{ width:150px; height:14px; margin:26px 0 30px; }
