@@ -488,6 +488,48 @@ p.hero__lead{
 }
 .scroll-cue__line{ width:1px; height:38px; background:linear-gradient(var(--accent),transparent); animation:cue 1.8s var(--ease) infinite; }
 @keyframes cue{ 0%{ transform:scaleY(0); transform-origin:top;} 50%{ transform:scaleY(1); transform-origin:top;} 51%{transform-origin:bottom;} 100%{ transform:scaleY(0); transform-origin:bottom;} }
+/* Stacked hero layouts place the CTAs near the bottom, so the floating scroll
+   hint would collide with them — hide it below the desktop breakpoint. */
+@media(max-width:900px){ .scroll-cue{ display:none; } }
+
+/* ---------- Mobile hero: content-first, generous spacing ---------- */
+@media(max-width:640px){
+  .hero{
+    min-height:86vh;
+    padding-top:118px;
+    padding-bottom:52px;
+  }
+  .hero__eyebrow{ font-size:.72rem; }
+  .hero__title{ margin-top:16px; }
+  /* Soft shadow keeps the large serif crisp where it crosses the backdrop */
+  .hero__title .line span{ text-shadow:0 2px 20px rgba(5,28,48,.6); }
+  .hero__thread{ margin:20px 0 24px; }
+  .hero__lead{
+    margin-top:6px;
+    text-shadow:0 1px 14px rgba(5,28,48,.7);
+  }
+  /* Clear separation from copy → stacked, equal-width, comfortable targets */
+  .hero__cta{
+    margin-top:34px;
+    gap:14px;
+    flex-direction:column;
+    align-items:stretch;
+    flex-wrap:nowrap;
+    width:100%;
+  }
+  .hero__cta .btn{
+    width:100%;
+    justify-content:center;
+    padding-top:17px;
+    padding-bottom:17px;
+  }
+}
+
+/* Very small phones (≤360px): trim height + title further so nothing clips */
+@media(max-width:360px){
+  .hero{ min-height:auto; padding-top:112px; }
+  .hero__cta{ margin-top:28px; }
+}
 
 /* Sub-page hero (shorter) */
 .page-hero{

@@ -127,17 +127,24 @@
   .hero__side{ display:none; }
 }
 
-/* Mobile: prioritise the illuminated logo + chairs, keep text crisp */
+/* Mobile: content is the priority. Lift the photo so the illuminated logo +
+   mirror sit in the upper third (a beautiful backdrop under the nav), dim it a
+   touch, then lay a strong bottom-weighted scrim so the headline, paragraph and
+   buttons always read on a dark, calm surface. */
 @media (max-width:640px){
   .hero__media-img{
-    object-position:50% 46%;
+    object-position:50% 30%;
+    filter:brightness(.8) contrast(1.04) saturate(1.02);
   }
   .hero__media-fade{
     background:
+      radial-gradient(130% 55% at 50% 6%, rgba(5,28,48,.12), transparent 42%),
       linear-gradient(180deg,
-        rgba(5,28,48,.7) 0%,
-        rgba(5,28,48,.5) 45%,
-        rgba(5,28,48,.94) 100%);
+        rgba(5,28,48,.5) 0%,
+        rgba(5,28,48,.42) 24%,
+        rgba(5,28,48,.68) 44%,
+        rgba(5,28,48,.88) 62%,
+        rgba(5,28,48,.96) 100%);
   }
 }
 
