@@ -60,11 +60,30 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --------------------------- Parallax hero bg --------------------------- */
   gsap.utils.toArray('.hero, .page-hero').forEach(hero => {
     const bg = hero.querySelector('.hero__bg');
-    if (!bg) return;
-    gsap.to(bg, {
-      yPercent: 14, ease: 'none',
-      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
-    });
+    if (bg) {
+      gsap.to(bg, {
+        yPercent: 14, ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
+      });
+    }
+    const mediaImg = hero.querySelector('.hero__media-img');
+    if (mediaImg) {
+      gsap.fromTo(mediaImg,
+        { yPercent: -2, scale: 1.04 },
+        {
+          yPercent: 6, scale: 1.08, ease: 'none',
+          scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
+        }
+      );
+      // Subtle floating presence (respect reduced motion via early return above)
+      gsap.to(mediaImg, {
+        y: '+=10',
+        duration: 5.5,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+      });
+    }
   });
 
   /* ------------------------------ Suture dividers ------------------------------ */
