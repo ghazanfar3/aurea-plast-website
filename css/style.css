@@ -216,8 +216,22 @@ p.lead{
   color:var(--primary);
   transform:translateY(-2px);
 }
-.section.dark .btn-outline{ color:var(--ivory); border-color:var(--hairline-on-dark); }
-.section.dark .btn-outline:hover{ color:var(--accent); border-color:var(--accent); }
+/* Outline CTA on dark surfaces: ivory text by default so it stays readable
+   without hover; hover only shifts to accent (does not reveal hidden text). */
+.hero .btn-outline,
+.page-hero .btn-outline,
+.cta-band .btn-outline,
+.section.dark .btn-outline{
+  color:var(--ivory);
+  border-color:var(--hairline-on-dark);
+}
+.hero .btn-outline:hover,
+.page-hero .btn-outline:hover,
+.cta-band .btn-outline:hover,
+.section.dark .btn-outline:hover{
+  color:var(--accent);
+  border-color:var(--accent);
+}
 
 .btn-ghost{
   background:none; border:none; padding:0;
