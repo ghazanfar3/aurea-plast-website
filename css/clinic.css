@@ -30,35 +30,55 @@
   right:0;
   left:auto;
   /* Photo lives in a right-hand panel; a narrower frame reveals the full
-     vertical story of the portrait (illuminated logo, oval mirror, both chairs)
+     vertical story of the portrait (illuminated logo, oval mirror, chairs)
      instead of a tight, over-zoomed central slice. */
-  width:47%;
+  width:54%;
   height:100%;
   object-fit:cover;
   object-position:50% 60%;
-  filter:brightness(1.05) contrast(1.05) saturate(1.03);
+  filter:brightness(1.05) contrast(1.04) saturate(1.03);
+  /* Feather the photo's own left edge into transparency so it dissolves into
+     the dark navy — the picture emerges from the background instead of ending
+     at a hard rectangle. The dark hero base then shows through seamlessly. */
+  -webkit-mask-image:linear-gradient(90deg,
+      transparent 0%,
+      rgba(0,0,0,.10) 9%,
+      rgba(0,0,0,.45) 24%,
+      rgba(0,0,0,.85) 38%,
+      #000 50%);
+          mask-image:linear-gradient(90deg,
+      transparent 0%,
+      rgba(0,0,0,.10) 9%,
+      rgba(0,0,0,.45) 24%,
+      rgba(0,0,0,.85) 38%,
+      #000 50%);
+  -webkit-mask-repeat:no-repeat;
+          mask-repeat:no-repeat;
+  -webkit-mask-size:100% 100%;
+          mask-size:100% 100%;
   will-change:transform;
 }
 .hero__media-fade{
   position:absolute;
   inset:0;
-  /* Soft horizontal blend from the dark hero into the photo (no hard seam),
-     plus gentle top/bottom vignettes so the nav, logo and buttons stay clean. */
+  /* Depth + readability only — the seam is handled by the mask above.
+     A faint warm glow near the logo adds cinematic lighting, a soft left
+     scrim protects the headline, and gentle top/bottom vignettes frame it.
+     Kept light so it never darkens the logo, mirror or chairs. */
   background:
+    radial-gradient(62% 55% at 74% 40%,
+      rgba(255,208,130,.10),
+      transparent 62%),
     linear-gradient(90deg,
-      #051C30 0%,
-      #051C30 36%,
-      rgba(5,28,48,.9) 46%,
-      rgba(5,28,48,.6) 55%,
-      rgba(5,28,48,.28) 66%,
-      rgba(5,28,48,.08) 80%,
-      rgba(5,28,48,0) 93%),
-    linear-gradient(180deg,
       rgba(5,28,48,.5) 0%,
-      rgba(5,28,48,.18) 13%,
-      transparent 32%,
+      rgba(5,28,48,.14) 30%,
+      rgba(5,28,48,0) 50%),
+    linear-gradient(180deg,
+      rgba(5,28,48,.42) 0%,
+      rgba(5,28,48,.06) 20%,
+      transparent 40%,
       transparent 72%,
-      rgba(5,28,48,.42) 100%);
+      rgba(5,28,48,.5) 100%);
   z-index:1;
   pointer-events:none;
 }
@@ -71,12 +91,13 @@
 /* Large desktops: allow a touch more of the lounge to breathe */
 @media (min-width:1400px){
   .hero__media-img{
-    width:50%;
+    width:56%;
     object-position:50% 58%;
   }
 }
 
-/* Tablet: photo becomes a full-bleed backdrop with a stronger readable wash */
+/* Tablet: photo becomes a full-bleed backdrop — no side seam, so drop the
+   horizontal mask and lean on a soft vertical wash for text contrast. */
 @media (max-width:980px){
   .hero__media-img{
     width:100%;
@@ -86,6 +107,10 @@
     height:100%;
     object-position:50% 52%;
     opacity:1;
+    -webkit-mask-image:linear-gradient(180deg,
+        rgba(0,0,0,.35) 0%, #000 14%, #000 92%, rgba(0,0,0,.25) 100%);
+            mask-image:linear-gradient(180deg,
+        rgba(0,0,0,.35) 0%, #000 14%, #000 92%, rgba(0,0,0,.25) 100%);
   }
   .hero__media-fade{
     background:
