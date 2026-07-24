@@ -11,7 +11,6 @@ $Map = @{
   "reception-wide.jpg" = ""  # wider reception / wood wall + pendant
   "waiting-sofas.jpg"  = ""  # blue sofas waiting area
   "lounge-chairs.jpg"  = ""  # cream chairs under logo
-  "lounge-portal.jpg"  = ""  # lounge with oval LED portal
 }
 
 foreach ($name in $Map.Keys) {

@@ -9,7 +9,7 @@ except ImportError:
 ROOT = Path(__file__).resolve().parents[1] / 'assets' / 'images' / 'clinic'
 NAMES = [
     'hero-lounge', 'reception-desk', 'reception-wide',
-    'waiting-sofas', 'lounge-chairs', 'lounge-portal',
+    'waiting-sofas', 'lounge-chairs',
 ]
 MAX_EDGE = 1800
 JPEG_QUALITY = 82
