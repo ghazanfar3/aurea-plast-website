@@ -21,6 +21,13 @@ Desktop.ini
 .tmp/
 tmp/
 
+# Backend secrets & runtime data (never commit real SMTP credentials)
+api/config.local.php
+api/logs/*.log
+api/data/*.json
+!api/logs/.gitkeep
+!api/data/.gitkeep
+
 # Node (if you add tooling later)
 node_modules/
 npm-debug.log*

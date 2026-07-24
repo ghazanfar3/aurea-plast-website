@@ -1,0 +1,25 @@
+# Aurea Plast API — hardening for shared (Hostinger) hosting.
+
+# Never list directory contents.
+Options -Indexes
+
+# Block direct access to config and any stray backup/editor files.
+<FilesMatch "^(config\.local\.php|config\.local\.sample\.php)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+<FilesMatch "\.(log|json|bak|sample)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

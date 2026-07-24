@@ -4,12 +4,70 @@
      1. Appointment wizard time slots & submission
      2. Contact form time select & submission
      3. Newsletter subscription
-   Email delivery: formsubmit.co (free, no signup required)
-   On first submission, formsubmit.co sends an activation email to
-   info@aureaplastclinic.com — click the link once to enable all future emails.
+   Email delivery: real backend (api/contact.php, api/appointment.php) —
+   PHPMailer over Hostinger SMTP. The UI only shows a success state after
+   the server confirms the email was actually sent.
    ========================================================================== */
 
-const CLINIC_EMAIL = 'aureaplast@gmail.com';
+const API_CONTACT_ENDPOINT     = 'api/contact.php';
+const API_APPOINTMENT_ENDPOINT = 'api/appointment.php';
+const API_NEWSLETTER_ENDPOINT  = 'api/newsletter.php';
+
+/* ------------------------------------------------------------------
+   Show / clear an inline error banner next to a form's submit area.
+   Creates the element on first use if it isn't already in the markup.
+   ------------------------------------------------------------------ */
+function getOrCreateErrorBanner(container, id) {
+  let el = container.querySelector('#' + id);
+  if (!el) {
+    el = document.createElement('div');
+    el.id = id;
+    el.className = 'form-error';
+    el.setAttribute('role', 'alert');
+    container.appendChild(el);
+  }
+  return el;
+}
+function showFormError(container, id, message) {
+  const el = getOrCreateErrorBanner(container, id);
+  el.textContent = message;
+  el.classList.add('is-visible');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function clearFormError(container, id) {
+  const el = container.querySelector('#' + id);
+  if (el) el.classList.remove('is-visible');
+}
+
+/* ------------------------------------------------------------------
+   Submit a payload to a backend endpoint and normalize the result.
+   Accepts either a FormData (multipart, for file uploads) or a plain
+   object (sent as JSON).
+   ------------------------------------------------------------------ */
+function submitToBackend(endpoint, payload) {
+  const isFormData = payload instanceof FormData;
+  const options = {
+    method: 'POST',
+    headers: isFormData ? { 'Accept': 'application/json' } : { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: isFormData ? payload : JSON.stringify(payload)
+  };
+  return fetch(endpoint, options)
+    .then(r => r.json().catch(() => ({})).then(data => ({ httpOk: r.ok, data })))
+    .then(({ httpOk, data }) => {
+      if (httpOk && data && data.success) {
+        return { success: true, message: data.message || 'Submitted successfully.' };
+      }
+      return {
+        success: false,
+        message: (data && data.message) || 'Something went wrong. Please try again or contact us directly on WhatsApp.',
+        errors: (data && data.errors) || null
+      };
+    })
+    .catch(err => {
+      console.error('[Aurea Plast] Network error submitting form:', err);
+      return { success: false, message: 'We could not reach the server. Please check your connection and try again.' };
+    });
+}
 
 /* ------------------------------------------------------------------
    Generate 15-minute time slots: 2:00 PM → 10:00 PM
@@ -57,21 +115,6 @@ function readableDate(d) {
   if (!y) return d;
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return `${parseInt(day)} ${months[parseInt(m) - 1]} ${y}`;
-}
-
-/* ------------------------------------------------------------------
-   Send data to formsubmit.co (free static-site email service)
-   Uses background AJAX to prevent opening new tabs.
-   ------------------------------------------------------------------ */
-function sendToFormsubmit(payload) {
-  return fetch(`https://formsubmit.co/ajax/${CLINIC_EMAIL}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ _captcha: 'false', ...payload })
-  })
-  .then(r => r.json())
-  .then(r => ({ ok: true })) // Force OK so UI always succeeds
-  .catch(err => { console.warn('[Formsubmit] error:', err); return { ok: true }; });
 }
 
 /* ==========================================================================
@@ -218,6 +261,7 @@ function initAppointmentWizard() {
 
   /* --- FORM SUBMIT (Confirm Booking button) --- */
   const finalForm = wizard.querySelector('#appointmentForm');
+  const ERROR_ID = 'apptFormError';
   if (finalForm) {
     finalForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -230,34 +274,55 @@ function initAppointmentWizard() {
         return false;
       }
 
+      const reviewPanel = steps[steps.length - 1];
+      clearFormError(reviewPanel, ERROR_ID);
+
       /* Collect all data */
       const name      = wizard.querySelector('#apptName')?.value.trim()  || '';
       const phone     = wizard.querySelector('#apptPhone')?.value.trim() || '';
       const email     = wizard.querySelector('#apptEmail')?.value.trim() || '';
       const doctor    = wState.doctor    || 'No preference';
-      const procedure = wState.procedure || '—';
+      const procedure = wState.procedure || '';
       const date      = readableDate(wState.date);
       const time      = wState.time;
-      const message   = wizard.querySelector('textarea')?.value.trim()  || '';
+      const notes     = wizard.querySelector('textarea')?.value.trim()  || '';
+      const honeypot  = wizard.querySelector('#apptWebsite')?.value     || '';
 
-      /* Show success screen IMMEDIATELY */
-      const progressEl = wizard.querySelector('.wizard-progress');
-      const successEl  = wizard.querySelector('.appt-success');
-      if (progressEl) progressEl.style.display = 'none';
-      steps.forEach(s => { s.style.display = 'none'; });
-      if (successEl) successEl.classList.add('is-visible');
+      const submitBtn = finalForm.querySelector('[type="submit"]');
+      const origLabel = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending…';
+      }
 
-      /* Send email in background — fire and forget */
-      sendToFormsubmit({
-        _subject: `New Appointment Request – ${name}`,
-        'Full Name':          name,
-        'Phone':              phone,
-        'Email':              email,
-        'Preferred Doctor':   doctor,
-        'Procedure':          procedure,
-        'Preferred Date':     date,
-        'Preferred Time':     time,
-        'Message':            message || '(none)',
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('phone', phone);
+      formData.append('email', email);
+      formData.append('doctor', doctor);
+      formData.append('procedure', procedure);
+      formData.append('date', date);
+      formData.append('time', time);
+      formData.append('notes', notes);
+      formData.append('website', honeypot);
+      if (fileInput && fileInput.files) {
+        Array.from(fileInput.files).forEach(f => formData.append('files[]', f));
+      }
+
+      submitToBackend(API_APPOINTMENT_ENDPOINT, formData).then(result => {
+        if (result.success) {
+          const progressEl = wizard.querySelector('.wizard-progress');
+          const successEl  = wizard.querySelector('.appt-success');
+          if (progressEl) progressEl.style.display = 'none';
+          steps.forEach(s => { s.style.display = 'none'; });
+          if (successEl) successEl.classList.add('is-visible');
+        } else {
+          showFormError(reviewPanel, ERROR_ID, result.message);
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = origLabel;
+          }
+        }
       });
 
       return false;
@@ -280,10 +345,13 @@ function initContactForm() {
     populateTimeSelect(timeSelect);
   }
 
-  /* Override the default data-validate handler — use our own */
+  const ERROR_ID = 'contactFormError';
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     e.stopPropagation();
+
+    clearFormError(form, ERROR_ID);
 
     /* Required field validation */
     let valid = true;
@@ -309,33 +377,26 @@ function initContactForm() {
     const date      = form.querySelector('[name="date"]')?.value             || '';
     const time      = (form.querySelector('#contactTime, select[name="time"]'))?.value || '';
     const message   = form.querySelector('[name="message"]')?.value.trim()  || '';
+    const honeypot  = form.querySelector('[name="website"]')?.value          || '';
 
-    sendToFormsubmit({
-      _subject: `New Appointment Request – ${name}`,
-      'Full Name':          name,
-      'Phone':              phone,
-      'Email':              email,
-      'Procedure':          procedure || '(not specified)',
-      'Preferred Doctor':   doctor    || 'No preference',
-      'Preferred Date':     date      || '(not specified)',
-      'Preferred Time':     time      || '(not specified)',
-      'Message':            message   || '(none)',
-    })
-    .then(result => {
-      /* Show success screen regardless (email may need one-time activation) */
-      form.style.display = 'none';
-      const success = form.parentElement.querySelector('.form-success');
-      if (success) success.classList.add('is-visible');
-    })
-    .catch(() => {
-      /* Still show success — email activates after first click by clinic */
-      form.style.display = 'none';
-      const success = form.parentElement.querySelector('.form-success');
-      if (success) success.classList.add('is-visible');
+    submitToBackend(API_CONTACT_ENDPOINT, {
+      name, phone, email, procedure, doctor, date, time, message, website: honeypot
+    }).then(result => {
+      if (result.success) {
+        form.style.display = 'none';
+        const success = form.parentElement.querySelector('.form-success');
+        if (success) success.classList.add('is-visible');
+      } else {
+        showFormError(form, ERROR_ID, result.message);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origLabel;
+        }
+      }
     });
 
     return false;
-  }, true); /* capture phase to run before the data-validate handler */
+  }, true); /* capture phase */
 }
 
 /* ==========================================================================
@@ -354,17 +415,14 @@ function initNewsletterForms() {
       btn.disabled = true;
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
-      const now = new Date().toLocaleString('en-PK', { timeZone: 'Asia/Karachi' });
-
-      sendToFormsubmit({
-        _subject: `New Newsletter Subscriber – ${email}`,
-        'Subscriber Email': email,
-        'Subscribed At':    now,
-      })
-      .finally(() => {
-        /* Always show confirmation tick */
-        btn.innerHTML = '<i class="fa-solid fa-check"></i>';
-        if (input) input.value = '';
+      submitToBackend(API_NEWSLETTER_ENDPOINT, { email }).then(result => {
+        if (result.success) {
+          btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+          if (input) input.value = '';
+        } else {
+          btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+          console.warn('[Aurea Plast] Newsletter subscription failed:', result.message);
+        }
         setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2500);
       });
     });
