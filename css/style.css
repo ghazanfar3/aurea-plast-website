@@ -424,17 +424,61 @@ p.hero__lead{
 }
 .hero__cta{ display:flex; gap:18px; margin-top:38px; flex-wrap:wrap; }
 
-.hero__side{ display:flex; flex-direction:column; gap:26px; align-items:flex-start; }
+.hero__side{ display:flex; flex-direction:column; gap:22px; align-items:stretch; }
 .hero__card{
-  background:rgba(248,246,242,0.06);
-  border:1px solid rgba(var(--accent-rgb),0.28);
-  border-radius:var(--radius-m);
-  padding:24px 26px;
-  backdrop-filter:blur(6px);
+  position:relative;
+  /* Premium dark frosted glass — opaque enough that the photo can't wash out
+     the content, but still reads as glass over the lounge behind it. */
+  background:linear-gradient(158deg, rgba(10,40,66,0.86) 0%, rgba(5,22,40,0.92) 100%);
+  border:1px solid rgba(var(--accent-rgb),0.22);
+  border-radius:16px;
+  padding:26px 30px;
+  -webkit-backdrop-filter:blur(22px) saturate(1.15);
+          backdrop-filter:blur(22px) saturate(1.15);
+  /* Layered shadows give lift + a soft inner top highlight for depth. */
+  box-shadow:
+    0 24px 50px -22px rgba(0,0,0,0.6),
+    0 8px 22px -14px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.07);
   width:100%;
+  overflow:hidden;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease);
 }
-.hero__card .stat-number{ font-family:var(--font-display); font-size:2.4rem; color:var(--accent); }
-.hero__card .stat-label{ font-family:var(--font-heading); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; opacity:.7; margin-top:4px; }
+/* Soft accent glow in the corner — luxury lighting, not a heavy border. */
+.hero__card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:radial-gradient(120% 80% at 0% 0%, rgba(var(--accent-rgb),0.12), transparent 55%);
+  pointer-events:none;
+}
+.hero__card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(var(--accent-rgb),0.42);
+  box-shadow:
+    0 34px 66px -22px rgba(0,0,0,0.66),
+    0 12px 26px -14px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.hero__card .stat-number{
+  position:relative;
+  font-family:var(--font-display);
+  font-size:2.6rem;
+  line-height:1;
+  color:var(--accent);
+  text-shadow:0 2px 18px rgba(var(--accent-rgb),0.3);
+}
+.hero__card .stat-label{
+  position:relative;
+  font-family:var(--font-heading);
+  font-size:.72rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(245,243,239,0.9);
+  opacity:1;
+  margin-top:10px;
+}
 
 .scroll-cue{
   position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
