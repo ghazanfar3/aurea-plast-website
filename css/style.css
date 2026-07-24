@@ -684,6 +684,13 @@ p.hero__lead{
 .footer-bottom{ display:flex; justify-content:space-between; align-items:center; padding:26px 0; font-size:.8rem; opacity:.6; flex-wrap:wrap; gap:12px; }
 .footer-bottom a{ opacity:.8; }
 .footer-bottom a:hover{ color:var(--accent); }
+.footer-bottom__dot{ opacity:.55; margin:0 1px; }
+.footer-credit{ font-weight:600; letter-spacing:.01em; opacity:.85; text-decoration:none; border-bottom:1px solid transparent; transition:color var(--dur-s) var(--ease), border-color var(--dur-s) var(--ease); }
+.footer-credit:hover{ color:var(--accent); border-bottom-color:rgba(var(--accent-rgb),.55); }
+@media(max-width:560px){
+  .footer-bottom{ justify-content:center; text-align:center; }
+  .footer-bottom > span{ width:100%; text-align:center; }
+}
 
 /* Floating buttons */
 .floating-stack{ position:fixed; right:26px; bottom:26px; display:flex; flex-direction:column; gap:14px; z-index:900; }
