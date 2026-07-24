@@ -272,7 +272,7 @@
 .page-hero .hero__bg.hero__bg--clinic{
   background-image:
     linear-gradient(180deg, rgba(5,28,48,.72), rgba(5,28,48,.88)),
-    url('../assets/images/clinic/reception-wide.jpg');
+    url('../assets/images/clinic/reception-wide-v2.jpg');
   background-size:cover;
   background-position:center 40%;
   opacity:1;
