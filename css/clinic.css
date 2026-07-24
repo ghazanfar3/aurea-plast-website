@@ -92,7 +92,9 @@
   box-shadow:0 28px 70px -28px rgba(5,28,48,.45), 0 12px 30px -18px rgba(0,0,0,.28);
   aspect-ratio:4/5;
   max-height:560px;
-  background:var(--dark);
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(214,41,142,.18), transparent 55%),
+    linear-gradient(160deg, #0a2438, #051C30);
 }
 .about-photo img,
 .about-photo .clinic-photo{
@@ -154,6 +156,9 @@
   position:relative;
   overflow:hidden;
   aspect-ratio:3/4;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(214,41,142,.14), transparent 60%),
+    #0a2438;
 }
 .gallery-item--wide .gallery-item__frame{ aspect-ratio:4/3; }
 .gallery-item--tall .gallery-item__frame{ aspect-ratio:3/5; }
