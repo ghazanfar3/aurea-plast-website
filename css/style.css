@@ -413,7 +413,15 @@ p.lead{
 .hero__thread{ width:150px; height:14px; margin:26px 0 30px; }
 .hero__thread path{ stroke:var(--accent); stroke-width:1.4; fill:none; }
 .hero__thread circle{ fill:var(--accent); }
-.hero__lead{ color:rgba(248,246,242,.72); max-width:46ch; }
+/* Selector must out-specify `p.lead` (dark gray) — otherwise the hero copy
+   inherits #4A4844 and disappears into the navy. Off-white gives WCAG AA+
+   contrast; the faint shadow keeps it crisp where it crosses the photo. */
+.hero__lead,
+p.hero__lead{
+  color:rgba(245,243,239,.94);
+  max-width:46ch;
+  text-shadow:0 1px 10px rgba(5,28,48,.45);
+}
 .hero__cta{ display:flex; gap:18px; margin-top:38px; flex-wrap:wrap; }
 
 .hero__side{ display:flex; flex-direction:column; gap:26px; align-items:flex-start; }
