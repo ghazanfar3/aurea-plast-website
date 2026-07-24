@@ -26,13 +26,14 @@
 }
 .hero__media-img{
   position:absolute;
-  top:-3%;
-  right:-2%;
-  width:62%;
-  height:106%;
+  top:0;
+  right:0;
+  width:58%;
+  height:100%;
   object-fit:cover;
-  object-position:58% center;
-  filter:brightness(1.03) contrast(1.05) saturate(1.03);
+  /* Keep illuminated Aurea Plast sign near top, just under nav */
+  object-position:62% 8%;
+  filter:brightness(1.04) contrast(1.05) saturate(1.03);
   will-change:transform;
 }
 .hero__media-fade{
@@ -41,19 +42,20 @@
   background:
     linear-gradient(90deg,
       #051C30 0%,
-      #051C30 28%,
-      rgba(5,28,48,.92) 42%,
-      rgba(5,28,48,.55) 58%,
-      rgba(5,28,48,.18) 74%,
-      rgba(5,28,48,0) 100%),
+      #051C30 30%,
+      rgba(5,28,48,.9) 44%,
+      rgba(5,28,48,.45) 58%,
+      rgba(5,28,48,.12) 72%,
+      rgba(5,28,48,0) 86%),
     linear-gradient(180deg,
-      rgba(5,28,48,.35) 0%,
-      transparent 28%,
-      transparent 70%,
-      rgba(5,28,48,.55) 100%);
+      rgba(5,28,48,.22) 0%,
+      rgba(5,28,48,.08) 14%,
+      transparent 32%,
+      transparent 72%,
+      rgba(5,28,48,.5) 100%);
   z-index:1;
 }
-.hero__bg{ z-index:0; opacity:.55; }
+.hero__bg{ z-index:0; opacity:.45; }
 .hero__grain{ z-index:2; }
 .hero__frame{ z-index:3; }
 .hero__content{ z-index:4; }
@@ -65,21 +67,29 @@
     right:0;
     top:0;
     height:100%;
-    object-position:70% center;
-    opacity:.55;
+    object-position:68% 12%;
+    opacity:.62;
   }
   .hero__media-fade{
     background:
       linear-gradient(180deg,
-        rgba(5,28,48,.88) 0%,
-        rgba(5,28,48,.72) 45%,
-        rgba(5,28,48,.92) 100%),
+        rgba(5,28,48,.78) 0%,
+        rgba(5,28,48,.55) 38%,
+        rgba(5,28,48,.88) 100%),
       linear-gradient(90deg,
-        rgba(5,28,48,.75) 0%,
-        rgba(5,28,48,.35) 100%);
+        rgba(5,28,48,.82) 0%,
+        rgba(5,28,48,.35) 55%,
+        rgba(5,28,48,.2) 100%);
   }
   .hero .container{ grid-template-columns:1fr; }
   .hero__side{ display:none; }
+}
+
+@media (max-width:640px){
+  .hero__media-img{
+    object-position:70% 10%;
+    opacity:.55;
+  }
 }
 
 /* ---------- About / philosophy figure ---------- */
