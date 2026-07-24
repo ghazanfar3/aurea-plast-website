@@ -20,8 +20,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
-<link rel="stylesheet" href="css/style.css?v=20260723181615">
-<link rel="stylesheet" href="css/components.css?v=20260723181615">
+<link rel="stylesheet" href="css/style.css?v=20260724120000">
+<link rel="stylesheet" href="css/components.css?v=20260724120000">
+<link rel="stylesheet" href="css/clinic.css?v=20260724115600">
 <script type="application/ld+json">
 { "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
  {"@type":"ListItem","position":1,"name":"Home","item":"https://www.aureaplast.com/index.html"},
@@ -74,7 +75,7 @@
 
 <main id="main">
   <section class="page-hero">
-    <div class="hero__bg"></div>
+    <div class="hero__bg hero__bg--clinic"></div>
     <div class="container">
       <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>About</span></div>
       <h1>Our Story, Our Standard</h1>
@@ -90,15 +91,26 @@
           <h2>Founded on a simple conviction</h2>
           <p class="lead" style="margin-top:18px;">Aurea Plast began with a shared conviction between Dr. Noor Ul Ain and Dr. Nasir Rafiq: that plastic surgery and aesthetic medicine deserve the same rigour, discretion and artistry found at the world's leading clinics — delivered locally, in Lahore. What started as a small reconstructive practice has grown into a comprehensive surgical and aesthetic destination, without ever losing its boutique, patient-first approach.</p>
         </div>
-        <div class="grid" style="gap:20px;">
-          <div class="card value-card gsap-rise"><div class="icon-tile"><i class="fa-solid fa-bullseye"></i></div><h4>Mission</h4><p>To deliver surgical and aesthetic outcomes that feel like the most natural version of every patient — with total transparency at every step.</p></div>
-          <div class="card value-card gsap-rise"><div class="icon-tile"><i class="fa-solid fa-eye"></i></div><h4>Vision</h4><p>To be Pakistan's most trusted name in reconstructive and aesthetic surgery, recognised for both clinical excellence and genuine care.</p></div>
+        <div class="about-photo gsap-rise">
+          <picture>
+            <source srcset="assets/images/clinic/reception-desk.webp" type="image/webp">
+            <img class="clinic-photo" src="assets/images/clinic/reception-desk.jpg" alt="Aurea Plast reception desk with signature wood feature wall" width="900" height="1125" loading="lazy" decoding="async">
+          </picture>
         </div>
       </div>
     </div>
   </section>
 
   <section class="section shade">
+    <div class="container">
+      <div class="grid grid-2" style="gap:24px;">
+        <div class="card value-card gsap-rise"><div class="icon-tile"><i class="fa-solid fa-bullseye"></i></div><h4>Mission</h4><p>To deliver surgical and aesthetic outcomes that feel like the most natural version of every patient — with total transparency at every step.</p></div>
+        <div class="card value-card gsap-rise"><div class="icon-tile"><i class="fa-solid fa-eye"></i></div><h4>Vision</h4><p>To be Pakistan's most trusted name in reconstructive and aesthetic surgery, recognised for both clinical excellence and genuine care.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container">
       <div class="section-head center"><span class="eyebrow" style="justify-content:center;">Core Values</span><h2>What guides every decision</h2></div>
       <div class="grid grid-4 gsap-stagger">
@@ -160,6 +172,72 @@
     </div>
   </section>
 
+  <section class="section clinic-gallery" id="inside-clinic">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow" style="justify-content:center;">Our Clinic</span>
+        <h2>Inside Aurea Plast</h2>
+        <p>Step into the spaces where consultations, planning, and care unfold.</p>
+      </div>
+      <div class="gallery-masonry">
+        <a class="gallery-item gallery-item--tall" href="assets/images/clinic/hero-lounge.jpg" data-lightbox data-caption="Lounge · AureaPlast" data-alt="Aurea Plast lounge with backlit logo">
+          <div class="gallery-item__frame">
+            <picture>
+              <source srcset="assets/images/clinic/hero-lounge.webp" type="image/webp">
+              <img class="clinic-photo" src="assets/images/clinic/hero-lounge.jpg" alt="Aurea Plast lounge with backlit logo" width="800" height="1200" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-item__caption">Lounge</span>
+          </div>
+        </a>
+        <a class="gallery-item" href="assets/images/clinic/reception-desk.jpg" data-lightbox data-caption="Reception" data-alt="Aurea Plast reception desk">
+          <div class="gallery-item__frame">
+            <picture>
+              <source srcset="assets/images/clinic/reception-desk.webp" type="image/webp">
+              <img class="clinic-photo" src="assets/images/clinic/reception-desk.jpg" alt="Aurea Plast reception desk" width="800" height="1000" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-item__caption">Reception</span>
+          </div>
+        </a>
+        <a class="gallery-item gallery-item--wide" href="assets/images/clinic/reception-wide.jpg" data-lightbox data-caption="Front desk" data-alt="Aurea Plast reception area">
+          <div class="gallery-item__frame">
+            <picture>
+              <source srcset="assets/images/clinic/reception-wide.webp" type="image/webp">
+              <img class="clinic-photo" src="assets/images/clinic/reception-wide.jpg" alt="Aurea Plast reception area" width="1000" height="750" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-item__caption">Front desk</span>
+          </div>
+        </a>
+        <a class="gallery-item" href="assets/images/clinic/waiting-sofas.jpg" data-lightbox data-caption="Waiting lounge" data-alt="Aurea Plast waiting lounge">
+          <div class="gallery-item__frame">
+            <picture>
+              <source srcset="assets/images/clinic/waiting-sofas.webp" type="image/webp">
+              <img class="clinic-photo" src="assets/images/clinic/waiting-sofas.jpg" alt="Aurea Plast waiting lounge" width="800" height="1000" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-item__caption">Waiting lounge</span>
+          </div>
+        </a>
+        <a class="gallery-item gallery-item--tall" href="assets/images/clinic/lounge-chairs.jpg" data-lightbox data-caption="Consultation lounge" data-alt="Aurea Plast consultation lounge">
+          <div class="gallery-item__frame">
+            <picture>
+              <source srcset="assets/images/clinic/lounge-chairs.webp" type="image/webp">
+              <img class="clinic-photo" src="assets/images/clinic/lounge-chairs.jpg" alt="Aurea Plast consultation lounge" width="800" height="1200" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-item__caption">Consultation lounge</span>
+          </div>
+        </a>
+        <a class="gallery-item" href="assets/images/clinic/lounge-portal.jpg" data-lightbox data-caption="Clinic interior" data-alt="Aurea Plast interior">
+          <div class="gallery-item__frame">
+            <picture>
+              <source srcset="assets/images/clinic/lounge-portal.webp" type="image/webp">
+              <img class="clinic-photo" src="assets/images/clinic/lounge-portal.jpg" alt="Aurea Plast interior" width="800" height="1000" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-item__caption">Clinic interior</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container">
       <div class="cta-band gsap-rise">
@@ -214,8 +292,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
-<script src="js/data.js?v=20260723181615"></script>
-<script src="js/script.js?v=20260723181615"></script>
-<script src="js/animations.js?v=20260723181615"></script>
+<script src="js/data.js?v=20260724120000"></script>
+<script src="js/script.js?v=20260724120000"></script>
+<script src="js/clinic-gallery.js?v=20260724120000"></script>
+<script src="js/animations.js?v=20260724120000"></script>
 </body>
 </html>
