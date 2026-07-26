@@ -98,15 +98,23 @@
             <label for="apptWebsite">Website</label>
             <input type="text" id="apptWebsite" name="website" tabindex="-1" autocomplete="off">
           </div>
+          <!-- Hidden fields: mirror the wizard's custom card/chip selections into real
+               form fields so EmailJS's sendForm() picks them up automatically. Kept in
+               sync by js/forms.js whenever the corresponding selection changes. -->
+          <input type="hidden" name="doctor" id="apptDoctorField" value="No preference">
+          <input type="hidden" name="procedure" id="apptProcedureField" value="—">
+          <input type="hidden" name="date" id="apptDateField" value="—">
+          <input type="hidden" name="time" id="apptTimeField" value="—">
+          <input type="hidden" name="attachments_note" id="apptAttachmentsField" value="No reference images attached.">
           <!-- Step 1: Patient Details -->
           <div class="wizard-panel is-active">
             <h3 style="margin-bottom:24px;">Patient Details</h3>
             <div class="form-grid">
-              <div class="form-field"><label>Full Name <span class="req">*</span></label><input type="text" id="apptName" required></div>
-              <div class="form-field"><label>Phone <span class="req">*</span></label><input type="tel" id="apptPhone" required></div>
+              <div class="form-field"><label>Full Name <span class="req">*</span></label><input type="text" id="apptName" name="name" required></div>
+              <div class="form-field"><label>Phone <span class="req">*</span></label><input type="tel" id="apptPhone" name="phone" required></div>
             </div>
-            <div class="form-field"><label>Email <span class="req">*</span></label><input type="email" id="apptEmail" required></div>
-            <div class="form-field"><label>Medical Notes</label><textarea placeholder="Any relevant medical history or allergies…"></textarea></div>
+            <div class="form-field"><label>Email <span class="req">*</span></label><input type="email" id="apptEmail" name="email" required></div>
+            <div class="form-field"><label>Medical Notes</label><textarea id="apptNotes" name="notes" placeholder="Any relevant medical history or allergies…"></textarea></div>
             <div class="wizard-actions"><span></span><button type="button" class="btn btn-primary ripple" data-next>Continue <i class="fa-solid fa-arrow-right"></i></button></div>
           </div>
 
@@ -225,10 +233,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="js/data.js?v=20260724120000"></script>
 <script src="js/script.js?v=20260724120000"></script>
 <script src="js/clinic-gallery.js?v=20260724120000"></script>
 <script src="js/animations.js?v=20260724120000"></script>
-<script src="js/forms.js?v=20260724120000"></script>
+<script src="js/emailjs-config.js?v=20260725150000"></script>
+<script src="js/forms.js?v=20260725150000"></script>
 </body>
 </html>

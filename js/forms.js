@@ -4,14 +4,36 @@
      1. Appointment wizard time slots & submission
      2. Contact form time select & submission
      3. Newsletter subscription
-   Email delivery: real backend (api/contact.php, api/appointment.php) —
-   PHPMailer over Hostinger SMTP. The UI only shows a success state after
-   the server confirms the email was actually sent.
+   Email delivery:
+     - Contact & Appointment forms → EmailJS (client-side, no server
+       required). Credentials live in js/emailjs-config.js. The UI only
+       shows a success state after EmailJS confirms the message was queued
+       for delivery.
+     - Newsletter subscription → existing lightweight backend endpoint.
    ========================================================================== */
 
-const API_CONTACT_ENDPOINT     = 'api/contact.php';
-const API_APPOINTMENT_ENDPOINT = 'api/appointment.php';
-const API_NEWSLETTER_ENDPOINT  = 'api/newsletter.php';
+const API_NEWSLETTER_ENDPOINT = 'api/newsletter.php';
+
+/* Basic RFC-5322-ish email check — good enough for client-side UX gating;
+   the real guarantee of deliverability still comes from EmailJS itself. */
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function isValidEmail(value) {
+  return EMAIL_REGEX.test(String(value || '').trim());
+}
+
+/* ------------------------------------------------------------------
+   Guard against the EmailJS SDK or credentials not being ready yet.
+   Returns a human-readable error string, or null if everything looks OK.
+   ------------------------------------------------------------------ */
+function emailjsReadinessError() {
+  if (typeof emailjs === 'undefined') {
+    return 'The messaging service could not load. Please check your connection and try again.';
+  }
+  if (typeof EMAILJS_PUBLIC_KEY === 'undefined' || !EMAILJS_PUBLIC_KEY || EMAILJS_PUBLIC_KEY.indexOf('YOUR_') === 0) {
+    return 'Online booking is being finalised. Please contact us directly on WhatsApp or by phone for now.';
+  }
+  return null;
+}
 
 /* ------------------------------------------------------------------
    Show / clear an inline error banner next to a form's submit area.
@@ -161,7 +183,11 @@ function initAppointmentWizard() {
       // Validate Step 1 (Patient Details)
       if (current === 0) {
         let valid = true;
-        wizard.querySelectorAll('.wizard-panel:first-child [required]').forEach(field => {
+        /* Use steps[0] directly rather than a ":first-child" CSS selector —
+           the honeypot field and hidden mirror inputs that precede the
+           panels in the DOM mean ".wizard-panel:first-child" never
+           actually matches the Step-1 panel. */
+        steps[0].querySelectorAll('[required]').forEach(field => {
           if (!field.value.trim()) {
             valid = false;
             field.style.borderColor = '#c0503f';
@@ -169,6 +195,11 @@ function initAppointmentWizard() {
             field.style.borderColor = '';
           }
         });
+        const emailField = wizard.querySelector('#apptEmail');
+        if (emailField && emailField.value.trim() && !isValidEmail(emailField.value)) {
+          valid = false;
+          emailField.style.borderColor = '#c0503f';
+        }
         if (!valid) return;
       }
       // Validate Step 4 (Time)
@@ -189,12 +220,21 @@ function initAppointmentWizard() {
     });
   });
 
+  /* --- Hidden fields mirroring wizard state, so EmailJS's sendForm() can
+     pick up selections that aren't native form inputs (cards / chips). --- */
+  const doctorField      = wizard.querySelector('#apptDoctorField');
+  const procedureField   = wizard.querySelector('#apptProcedureField');
+  const dateField        = wizard.querySelector('#apptDateField');
+  const timeField        = wizard.querySelector('#apptTimeField');
+  const attachmentsField = wizard.querySelector('#apptAttachmentsField');
+
   /* --- Doctor & procedure cards --- */
   wizard.querySelectorAll('[data-doctor]').forEach(card => {
     card.addEventListener('click', () => {
       wizard.querySelectorAll('[data-doctor]').forEach(c => c.classList.remove('is-selected'));
       card.classList.add('is-selected');
       wState.doctor = card.dataset.doctor;
+      if (doctorField) doctorField.value = wState.doctor || 'No preference';
     });
   });
   wizard.querySelectorAll('[data-procedure]').forEach(card => {
@@ -202,6 +242,7 @@ function initAppointmentWizard() {
       wizard.querySelectorAll('[data-procedure]').forEach(c => c.classList.remove('is-selected'));
       card.classList.add('is-selected');
       wState.procedure = card.dataset.procedure;
+      if (procedureField) procedureField.value = wState.procedure || '—';
     });
   });
 
@@ -214,6 +255,7 @@ function initAppointmentWizard() {
       wizard.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-selected'));
       chip.classList.add('is-selected');
       wState.time = chip.dataset.time;
+      if (timeField) timeField.value = wState.time || '—';
       timeError.style.display = 'none';
     });
   }
@@ -221,11 +263,35 @@ function initAppointmentWizard() {
   /* --- Date input --- */
   const dateInput = wizard.querySelector('#apptDate');
   if (dateInput) {
-    dateInput.addEventListener('change', () => { wState.date = dateInput.value; });
+    ['change', 'input'].forEach(evt => dateInput.addEventListener(evt, () => {
+      wState.date = dateInput.value;
+      if (dateField) dateField.value = readableDate(wState.date);
+    }));
+  }
+
+  /* --- Re-derive wState (and the hidden mirror fields) directly from the
+     DOM's current "is-selected" cards / inputs. This is a defensive
+     safety net — it guarantees the Review panel and the email that gets
+     sent always reflect exactly what's on screen, even if a click/change
+     event was ever missed (e.g. programmatic form fills, browser quirks). --- */
+  function syncWizardStateFromDom() {
+    const selectedDoctor    = wizard.querySelector('[data-doctor].is-selected');
+    const selectedProcedure = wizard.querySelector('[data-procedure].is-selected');
+    const selectedTime      = wizard.querySelector('.time-chip.is-selected');
+    if (selectedDoctor)    wState.doctor    = selectedDoctor.dataset.doctor;
+    if (selectedProcedure) wState.procedure = selectedProcedure.dataset.procedure;
+    if (selectedTime)      wState.time      = selectedTime.dataset.time;
+    if (dateInput && dateInput.value) wState.date = dateInput.value;
+
+    if (doctorField)     doctorField.value     = wState.doctor    || 'No preference';
+    if (procedureField)  procedureField.value  = wState.procedure || '—';
+    if (dateField)        dateField.value        = readableDate(wState.date);
+    if (timeField)         timeField.value         = wState.time      || '—';
   }
 
   /* --- Fill review panel --- */
   function fillReview() {
+    syncWizardStateFromDom();
     const map = {
       reviewName:      wizard.querySelector('#apptName')?.value  || '—',
       reviewPhone:     wizard.querySelector('#apptPhone')?.value || '—',
@@ -254,8 +320,19 @@ function initAppointmentWizard() {
     uploadDrop.addEventListener('drop', e => { fileInput.files = e.dataTransfer.files; showFiles(); });
     fileInput.addEventListener('change', showFiles);
     function showFiles() {
-      fileList.innerHTML = Array.from(fileInput.files)
+      const files = Array.from(fileInput.files);
+      fileList.innerHTML = files
         .map(f => `<span><i class="fa-solid fa-paperclip"></i> ${f.name}</span>`).join('');
+      /* Note: EmailJS (client-side) reliably attaches one file per template
+         attachment slot — it isn't a good fit for an arbitrary number of
+         reference images. Instead we tell the clinic team, by name, which
+         files the patient selected so they can follow up (e.g. via
+         WhatsApp) to actually receive them. */
+      if (attachmentsField) {
+        attachmentsField.value = files.length
+          ? `${files.length} reference image(s) selected by patient (not emailed automatically): ${files.map(f => f.name).join(', ')}. Please request these via WhatsApp/email if needed.`
+          : 'No reference images attached.';
+      }
     }
   }
 
@@ -267,6 +344,9 @@ function initAppointmentWizard() {
       e.preventDefault();
       e.stopPropagation();
 
+      /* Prevent duplicate submissions (double-click / double Enter) */
+      if (finalForm.dataset.submitting === 'true') return false;
+
       /* Guard: time must be selected */
       if (!wState.time) {
         showStep(3);
@@ -277,53 +357,72 @@ function initAppointmentWizard() {
       const reviewPanel = steps[steps.length - 1];
       clearFormError(reviewPanel, ERROR_ID);
 
-      /* Collect all data */
-      const name      = wizard.querySelector('#apptName')?.value.trim()  || '';
-      const phone     = wizard.querySelector('#apptPhone')?.value.trim() || '';
-      const email     = wizard.querySelector('#apptEmail')?.value.trim() || '';
-      const doctor    = wState.doctor    || 'No preference';
-      const procedure = wState.procedure || '';
-      const date      = readableDate(wState.date);
-      const time      = wState.time;
-      const notes     = wizard.querySelector('textarea')?.value.trim()  || '';
-      const honeypot  = wizard.querySelector('#apptWebsite')?.value     || '';
+      /* Re-validate patient details (in case the browser back-navigated here) */
+      const nameField  = wizard.querySelector('#apptName');
+      const phoneField = wizard.querySelector('#apptPhone');
+      const emailField = wizard.querySelector('#apptEmail');
+      let valid = true;
+      [nameField, phoneField, emailField].forEach(field => {
+        if (field && !field.value.trim()) { valid = false; field.style.borderColor = '#c0503f'; }
+      });
+      if (emailField && emailField.value.trim() && !isValidEmail(emailField.value)) {
+        valid = false;
+        emailField.style.borderColor = '#c0503f';
+      }
+      if (!valid) {
+        showStep(0);
+        showFormError(steps[0], 'apptStep1Error', 'Please double-check your name, phone and a valid email address.');
+        return false;
+      }
+
+      /* Honeypot: bots that auto-fill hidden fields get a silent "success" */
+      const honeypot = wizard.querySelector('#apptWebsite');
+      if (honeypot && honeypot.value) {
+        finalForm.reset();
+        const progressEl = wizard.querySelector('.wizard-progress');
+        const successEl  = wizard.querySelector('.appt-success');
+        if (progressEl) progressEl.style.display = 'none';
+        steps.forEach(s => { s.style.display = 'none'; });
+        if (successEl) successEl.classList.add('is-visible');
+        return false;
+      }
+
+      const readiness = emailjsReadinessError();
+      if (readiness) {
+        showFormError(reviewPanel, ERROR_ID, readiness);
+        return false;
+      }
 
       const submitBtn = finalForm.querySelector('[type="submit"]');
       const origLabel = submitBtn ? submitBtn.innerHTML : '';
+      finalForm.dataset.submitting = 'true';
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending…';
       }
 
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('phone', phone);
-      formData.append('email', email);
-      formData.append('doctor', doctor);
-      formData.append('procedure', procedure);
-      formData.append('date', date);
-      formData.append('time', time);
-      formData.append('notes', notes);
-      formData.append('website', honeypot);
-      if (fileInput && fileInput.files) {
-        Array.from(fileInput.files).forEach(f => formData.append('files[]', f));
-      }
+      /* Make sure every hidden mirror field reflects the latest wizard state
+         (covers the case where a field was the default/untouched value). */
+      syncWizardStateFromDom();
 
-      submitToBackend(API_APPOINTMENT_ENDPOINT, formData).then(result => {
-        if (result.success) {
+      emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_APPOINTMENT, finalForm)
+        .then(() => {
           const progressEl = wizard.querySelector('.wizard-progress');
           const successEl  = wizard.querySelector('.appt-success');
           if (progressEl) progressEl.style.display = 'none';
           steps.forEach(s => { s.style.display = 'none'; });
           if (successEl) successEl.classList.add('is-visible');
-        } else {
-          showFormError(reviewPanel, ERROR_ID, result.message);
+          finalForm.reset();
+        })
+        .catch(err => {
+          console.error('[Aurea Plast] EmailJS appointment submission failed:', err);
+          showFormError(reviewPanel, ERROR_ID, 'We could not send your appointment request. Please try again or contact us directly on WhatsApp.');
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.innerHTML = origLabel;
           }
-        }
-      });
+        })
+        .finally(() => { finalForm.dataset.submitting = 'false'; });
 
       return false;
     });
@@ -351,6 +450,9 @@ function initContactForm() {
     e.preventDefault();
     e.stopPropagation();
 
+    /* Prevent duplicate submissions (double-click / double Enter) */
+    if (form.dataset.submitting === 'true') return false;
+
     clearFormError(form, ERROR_ID);
 
     /* Required field validation */
@@ -360,40 +462,59 @@ function initContactForm() {
       field.style.borderColor = empty ? '#c0503f' : '';
       if (empty) valid = false;
     });
-    if (!valid) return false;
+
+    /* Email format validation */
+    const emailField = form.querySelector('[name="email"]');
+    if (emailField && emailField.value.trim() && !isValidEmail(emailField.value)) {
+      emailField.style.borderColor = '#c0503f';
+      valid = false;
+    }
+
+    if (!valid) {
+      showFormError(form, ERROR_ID, 'Please fill in all required fields with a valid email address.');
+      return false;
+    }
+
+    /* Honeypot: bots that auto-fill hidden fields get a silent "success" */
+    const honeypot = form.querySelector('[name="website"]');
+    if (honeypot && honeypot.value) {
+      form.reset();
+      form.style.display = 'none';
+      const success = form.parentElement.querySelector('.form-success');
+      if (success) success.classList.add('is-visible');
+      return false;
+    }
+
+    const readiness = emailjsReadinessError();
+    if (readiness) {
+      showFormError(form, ERROR_ID, readiness);
+      return false;
+    }
 
     const submitBtn = form.querySelector('[type="submit"]');
     const origLabel = submitBtn ? submitBtn.innerHTML : '';
+    form.dataset.submitting = 'true';
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending…';
     }
 
-    const name      = form.querySelector('[name="name"]')?.value.trim()      || '';
-    const phone     = form.querySelector('[name="phone"]')?.value.trim()     || '';
-    const email     = form.querySelector('[name="email"]')?.value.trim()     || '';
-    const procedure = form.querySelector('[name="procedure"]')?.value        || '';
-    const doctor    = form.querySelector('[name="doctor"]')?.value           || '';
-    const date      = form.querySelector('[name="date"]')?.value             || '';
-    const time      = (form.querySelector('#contactTime, select[name="time"]'))?.value || '';
-    const message   = form.querySelector('[name="message"]')?.value.trim()  || '';
-    const honeypot  = form.querySelector('[name="website"]')?.value          || '';
-
-    submitToBackend(API_CONTACT_ENDPOINT, {
-      name, phone, email, procedure, doctor, date, time, message, website: honeypot
-    }).then(result => {
-      if (result.success) {
+    emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_CONTACT, form)
+      .then(() => {
         form.style.display = 'none';
         const success = form.parentElement.querySelector('.form-success');
         if (success) success.classList.add('is-visible');
-      } else {
-        showFormError(form, ERROR_ID, result.message);
+        form.reset();
+      })
+      .catch(err => {
+        console.error('[Aurea Plast] EmailJS contact submission failed:', err);
+        showFormError(form, ERROR_ID, 'We could not send your enquiry. Please try again or contact us directly on WhatsApp.');
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = origLabel;
         }
-      }
-    });
+      })
+      .finally(() => { form.dataset.submitting = 'false'; });
 
     return false;
   }, true); /* capture phase */

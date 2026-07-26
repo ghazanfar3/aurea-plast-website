@@ -1,5 +1,12 @@
 # Aurea Plast — Form Backend (PHPMailer + Hostinger SMTP)
 
+> **Status update:** The **Contact** and **Appointment** forms now send mail
+> client-side via **EmailJS** (see `js/emailjs-config.js` and `js/forms.js`
+> in the project root) instead of calling `contact.php` / `appointment.php`.
+> This backend is kept in the repo and still works if you want a fallback,
+> but it is no longer wired up to the frontend for those two forms. The
+> footer **Newsletter** signup still uses `newsletter.php` below as-is.
+
 Real email backend for the **Appointment** and **Contact** forms (plus the
 footer **Newsletter** signup). Every form now performs a real server-side
 send and only reports success to the visitor once Hostinger's SMTP server
