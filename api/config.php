@@ -36,11 +36,12 @@ if (!defined('AUREA_CONFIG_LOADED')) {
     }
 
     /* ------------------------------------------------------------------
-       SMTP transport (Hostinger Titan Mail / Hostinger SMTP)
-       Typical Hostinger values:
+       SMTP transport — native Hostinger Email (NOT Titan Mail).
+       Typical Hostinger Email values:
          Host       : smtp.hostinger.com
          Port       : 465 (SSL)  or  587 (STARTTLS)
          Encryption : ssl        or  tls
+         Username   : the full mailbox address, e.g. info@yourdomain.com
        ------------------------------------------------------------------ */
     if (!defined('SMTP_HOST'))       define('SMTP_HOST', aurea_env('AUREA_SMTP_HOST', 'smtp.hostinger.com'));
     if (!defined('SMTP_PORT'))       define('SMTP_PORT', (int) aurea_env('AUREA_SMTP_PORT', 465));

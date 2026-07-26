@@ -11,11 +11,17 @@
 
    2. Email Services → "Add New Service" → choose "Custom SMTP Server" and
       connect the clinic's real mailbox so mail is sent FROM
-      info@aureaplastclinic.com:
-        SMTP Server : smtp.titan.email
-        Port        : 465  (SSL)
-        Username    : info@aureaplastclinic.com
-        Password    : (the Titan Mail mailbox password)
+      info@aureaplastclinic.com. This domain's mail is now hosted on
+      Hostinger's own native "Hostinger Email" service (confirmed via its
+      MX records: mx1.hostinger.com / mx2.hostinger.com) — it is NOT Titan
+      Mail, so do NOT use smtp.titan.email (that will fail auth):
+        SMTP Server : smtp.hostinger.com
+        Port        : 465 (SSL)   — or 587 (STARTTLS) if 465 is blocked
+        Username    : info@aureaplastclinic.com   (the full mailbox address)
+        Password    : (that Hostinger Email mailbox's current password —
+                       reset it via hPanel → Emails → Manage → Security if
+                       it's not known; the old Titan password no longer
+                       works here)
       Copy the generated "Service ID" into EMAILJS_SERVICE_ID below.
 
    3. Email Templates → "Create New Template" — create ONE template for the
