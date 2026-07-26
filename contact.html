@@ -124,6 +124,13 @@
               <label for="contactWebsite">Website</label>
               <input type="text" id="contactWebsite" name="website" tabindex="-1" autocomplete="off">
             </div>
+            <!-- Alias fields: kept in sync with name/email by js/forms.js right before
+                 sending, so the EmailJS template can use either {{name}}/{{email}} or
+                 the common {{from_name}}/{{from_email}}/{{reply_to}}/{{to_name}} convention. -->
+            <input type="hidden" name="from_name">
+            <input type="hidden" name="from_email">
+            <input type="hidden" name="reply_to">
+            <input type="hidden" name="to_name" value="Aurea Plast Team">
             <div class="form-grid">
               <div class="form-field"><label>Full Name <span class="req">*</span></label><input type="text" name="name" required></div>
               <div class="form-field"><label>Phone <span class="req">*</span></label><input type="tel" name="phone" required></div>
@@ -251,7 +258,7 @@
 <script src="js/script.js?v=20260724120000"></script>
 <script src="js/clinic-gallery.js?v=20260724120000"></script>
 <script src="js/animations.js?v=20260724120000"></script>
-<script src="js/emailjs-config.js?v=20260725150000"></script>
-<script src="js/forms.js?v=20260725150000"></script>
+<script src="js/emailjs-config.js?v=20260726141800"></script>
+<script src="js/forms.js?v=20260726141800"></script>
 </body>
 </html>

@@ -22,6 +22,28 @@ function isValidEmail(value) {
 }
 
 /* ------------------------------------------------------------------
+   Mirror name/email (and optionally a message-like field) into the hidden
+   from_name / from_email / reply_to alias inputs present on both forms, so
+   the EmailJS template can be authored with either naming convention
+   ({{name}}/{{email}} or {{from_name}}/{{from_email}}/{{reply_to}}).
+   ------------------------------------------------------------------ */
+function syncEmailAliasFields(form, messageSourceSelector) {
+  const nameVal  = form.querySelector('[name="name"]')?.value.trim()  || '';
+  const emailVal = form.querySelector('[name="email"]')?.value.trim() || '';
+  const fromName  = form.querySelector('[name="from_name"]');
+  const fromEmail = form.querySelector('[name="from_email"]');
+  const replyTo   = form.querySelector('[name="reply_to"]');
+  if (fromName)  fromName.value  = nameVal;
+  if (fromEmail) fromEmail.value = emailVal;
+  if (replyTo)   replyTo.value   = emailVal;
+  if (messageSourceSelector) {
+    const messageField = form.querySelector('[name="message"]');
+    const source = form.querySelector(messageSourceSelector);
+    if (messageField && source) messageField.value = source.value;
+  }
+}
+
+/* ------------------------------------------------------------------
    Guard against the EmailJS SDK or credentials not being ready yet.
    Returns a human-readable error string, or null if everything looks OK.
    ------------------------------------------------------------------ */
@@ -404,6 +426,7 @@ function initAppointmentWizard() {
       /* Make sure every hidden mirror field reflects the latest wizard state
          (covers the case where a field was the default/untouched value). */
       syncWizardStateFromDom();
+      syncEmailAliasFields(finalForm, '#apptNotes');
 
       emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_APPOINTMENT, finalForm)
         .then(() => {
@@ -498,6 +521,8 @@ function initContactForm() {
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending…';
     }
+
+    syncEmailAliasFields(form);
 
     emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_CONTACT, form)
       .then(() => {

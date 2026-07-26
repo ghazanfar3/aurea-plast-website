@@ -106,6 +106,15 @@
           <input type="hidden" name="date" id="apptDateField" value="—">
           <input type="hidden" name="time" id="apptTimeField" value="—">
           <input type="hidden" name="attachments_note" id="apptAttachmentsField" value="No reference images attached.">
+          <!-- Alias fields: kept in sync with name/email/notes by js/forms.js right before
+               sending, so the EmailJS template can use either {{name}}/{{email}}/{{notes}}
+               or the common {{from_name}}/{{from_email}}/{{reply_to}}/{{to_name}}/{{message}}
+               convention. -->
+          <input type="hidden" name="from_name">
+          <input type="hidden" name="from_email">
+          <input type="hidden" name="reply_to">
+          <input type="hidden" name="to_name" value="Aurea Plast Team">
+          <input type="hidden" name="message" id="apptMessageField">
           <!-- Step 1: Patient Details -->
           <div class="wizard-panel is-active">
             <h3 style="margin-bottom:24px;">Patient Details</h3>
@@ -238,7 +247,7 @@
 <script src="js/script.js?v=20260724120000"></script>
 <script src="js/clinic-gallery.js?v=20260724120000"></script>
 <script src="js/animations.js?v=20260724120000"></script>
-<script src="js/emailjs-config.js?v=20260725150000"></script>
-<script src="js/forms.js?v=20260725150000"></script>
+<script src="js/emailjs-config.js?v=20260726141800"></script>
+<script src="js/forms.js?v=20260726141800"></script>
 </body>
 </html>
