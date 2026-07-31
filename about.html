@@ -20,6 +20,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <link rel="stylesheet" href="css/style.css?v=20260731163000">
 <link rel="stylesheet" href="css/components.css?v=20260724120000">
 <link rel="stylesheet" href="css/clinic.css?v=20260724214500">
@@ -98,59 +99,11 @@
     </div>
   </section>
 
-  <section class="section clinic-gallery" id="inside-clinic">
-    <div class="container">
-      <div class="section-head center">
-        <span class="eyebrow" style="justify-content:center;">Our Clinic</span>
-        <h2>Inside Aurea Plast</h2>
-        <p>Step into the spaces where consultations, planning, and care unfold.</p>
-      </div>
-      <div class="gallery-masonry">
-        <a class="gallery-item gallery-item--feature" href="assets/images/clinic/reception-wide-v2.jpg" data-lightbox data-caption="Front desk" data-alt="Aurea Plast front desk and wood feature wall">
-          <div class="gallery-item__frame">
-            <img class="clinic-photo" src="assets/images/clinic/reception-wide-v2.jpg" alt="Aurea Plast front desk and wood feature wall" width="1200" height="900" loading="lazy" decoding="async">
-            <span class="gallery-item__caption">Front desk</span>
-          </div>
-        </a>
-        <a class="gallery-item" href="assets/images/clinic/reception-lounge-v3.jpg" data-lightbox data-caption="Reception Lounge" data-alt="Aurea Plast reception lounge with illuminated logo">
-          <div class="gallery-item__frame">
-            <img class="clinic-photo" src="assets/images/clinic/reception-lounge-v3.jpg" alt="Aurea Plast reception lounge with illuminated logo" width="1012" height="1800" loading="lazy" decoding="async" style="object-position:center 18%;">
-            <span class="gallery-item__caption">Reception Lounge</span>
-          </div>
-        </a>
-        <a class="gallery-item" href="assets/images/clinic/waiting-sofas-v2.jpg" data-lightbox data-caption="Waiting lounge" data-alt="Aurea Plast waiting lounge">
-          <div class="gallery-item__frame">
-            <img class="clinic-photo" src="assets/images/clinic/waiting-sofas-v2.jpg" alt="Aurea Plast waiting lounge" width="900" height="1200" loading="lazy" decoding="async">
-            <span class="gallery-item__caption">Waiting lounge</span>
-          </div>
-        </a>
-        <a class="gallery-item gallery-item--wide" href="assets/images/clinic/reception-desk-v2.jpg" data-lightbox data-caption="Reception" data-alt="Aurea Plast reception desk">
-          <div class="gallery-item__frame">
-            <img class="clinic-photo" src="assets/images/clinic/reception-desk-v2.jpg" alt="Aurea Plast reception desk" width="1200" height="900" loading="lazy" decoding="async" style="object-position:center 35%;">
-            <span class="gallery-item__caption">Reception</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
   <section class="section shade">
     <div class="container">
       <div class="grid grid-2" style="gap:24px;">
         <div class="card value-card gsap-rise"><div class="icon-tile"><i class="fa-solid fa-bullseye"></i></div><h4>Mission</h4><p>To deliver surgical and aesthetic outcomes that feel like the most natural version of every patient — with total transparency at every step.</p></div>
         <div class="card value-card gsap-rise"><div class="icon-tile"><i class="fa-solid fa-eye"></i></div><h4>Vision</h4><p>To be Pakistan's most trusted name in reconstructive and aesthetic surgery, recognised for both clinical excellence and genuine care.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-head center"><span class="eyebrow" style="justify-content:center;">Core Values</span><h2>What guides every decision</h2></div>
-      <div class="grid grid-4 core-values-grid gsap-stagger">
-        <div class="card feat-card"><div class="icon-tile"><i class="fa-solid fa-shield-heart"></i></div><h4>Safety First</h4><p>Every protocol is built around patient safety, never compromise.</p></div>
-        <div class="card feat-card"><div class="icon-tile"><i class="fa-solid fa-comments"></i></div><h4>Honest Guidance</h4><p>We recommend what's right for you — not what's most profitable.</p></div>
-        <div class="card feat-card"><div class="icon-tile"><i class="fa-solid fa-hand-holding-heart"></i></div><h4>Genuine Care</h4><p>Your comfort and confidence matter as much as the outcome itself.</p></div>
-        <div class="card feat-card"><div class="icon-tile"><i class="fa-solid fa-gem"></i></div><h4>Refined Artistry</h4><p>Precision technique paired with an eye for natural proportion.</p></div>
       </div>
     </div>
   </section>
@@ -190,6 +143,18 @@
     </div>
   </section>
 
+  <section class="section">
+    <div class="container">
+      <div class="section-head center"><span class="eyebrow" style="justify-content:center;">Core Values</span><h2>What guides every decision</h2></div>
+      <div class="grid grid-4 core-values-grid gsap-stagger">
+        <div class="card feat-card"><div class="icon-tile"><i class="fa-solid fa-shield-heart"></i></div><h4>Safety First</h4><p>Every protocol is built around patient safety, never compromise.</p></div>
+        <div class="card feat-card"><div class="icon-tile"><i class="fa-solid fa-comments"></i></div><h4>Honest Guidance</h4><p>We recommend what's right for you — not what's most profitable.</p></div>
+        <div class="card feat-card"><div class="icon-tile"><i class="fa-solid fa-hand-holding-heart"></i></div><h4>Genuine Care</h4><p>Your comfort and confidence matter as much as the outcome itself.</p></div>
+        <div class="card feat-card"><div class="icon-tile"><i class="fa-solid fa-gem"></i></div><h4>Refined Artistry</h4><p>Precision technique paired with an eye for natural proportion.</p></div>
+      </div>
+    </div>
+  </section>
+
   <div class="suture-divider"><svg viewBox="0 0 120 16"><path d="M2 8 Q 20 -1, 38 8 T 74 8 T 110 8"/><circle cx="110" cy="8" r="3"/></svg></div>
 
   <section class="section shade">
@@ -200,6 +165,49 @@
         <div class="timeline-item gsap-rise"><div class="timeline-dot"></div><span class="timeline-year">2020</span><h4>Aesthetic Division Launched</h4><p>Dr. Nasir Rafiq joins to lead a dedicated non-surgical aesthetic programme.</p></div>
         <div class="timeline-item gsap-rise"><div class="timeline-dot"></div><span class="timeline-year">2021</span><h4>Aurea Plast Rebrand</h4><p>The practice becomes Aurea Plast, expanding into a full boutique clinic.</p></div>
         <div class="timeline-item gsap-rise"><div class="timeline-dot"></div><span class="timeline-year">2026</span><h4>800+ Procedures</h4><p>A milestone of patient trust reached across surgical and aesthetic care.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section clinic-gallery" id="inside-clinic">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow" style="justify-content:center;">Our Clinic</span>
+        <h2>Inside Aurea Plast</h2>
+        <p>Step into the spaces where consultations, planning, and care unfold.</p>
+      </div>
+      <div class="gallery-masonry">
+        <a class="gallery-item gallery-item--feature" href="assets/images/clinic/reception-wide-v2.jpg" data-lightbox data-caption="Front desk" data-alt="Aurea Plast front desk and wood feature wall"><div class="gallery-item__frame"><img class="clinic-photo" src="assets/images/clinic/reception-wide-v2.jpg" alt="Aurea Plast front desk and wood feature wall" width="1200" height="900" loading="lazy" decoding="async"><span class="gallery-item__caption">Front desk</span></div></a>
+        <a class="gallery-item" href="assets/images/clinic/reception-lounge-v3.jpg" data-lightbox data-caption="Reception Lounge" data-alt="Aurea Plast reception lounge with illuminated logo"><div class="gallery-item__frame"><img class="clinic-photo" src="assets/images/clinic/reception-lounge-v3.jpg" alt="Aurea Plast reception lounge with illuminated logo" width="1012" height="1800" loading="lazy" decoding="async" style="object-position:center 18%;"><span class="gallery-item__caption">Reception Lounge</span></div></a>
+        <a class="gallery-item" href="assets/images/clinic/waiting-sofas-v2.jpg" data-lightbox data-caption="Waiting lounge" data-alt="Aurea Plast waiting lounge"><div class="gallery-item__frame"><img class="clinic-photo" src="assets/images/clinic/waiting-sofas-v2.jpg" alt="Aurea Plast waiting lounge" width="900" height="1200" loading="lazy" decoding="async"><span class="gallery-item__caption">Waiting lounge</span></div></a>
+        <a class="gallery-item gallery-item--wide" href="assets/images/clinic/reception-desk-v2.jpg" data-lightbox data-caption="Reception" data-alt="Aurea Plast reception desk"><div class="gallery-item__frame"><img class="clinic-photo" src="assets/images/clinic/reception-desk-v2.jpg" alt="Aurea Plast reception desk" width="1200" height="900" loading="lazy" decoding="async" style="object-position:center 35%;"><span class="gallery-item__caption">Reception</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center"><span class="eyebrow" style="justify-content:center;">Patient Voices</span><h2>What Our Patients Say</h2></div>
+      <div class="swiper testi-swiper"><div class="swiper-wrapper">
+        <div class="swiper-slide testi-slide"><div class="testi-card"><span class="quote-mark">"</span><p>The care and honesty throughout my consultation gave me total confidence in my decision.</p><div class="testi-foot"><div class="testi-avatar"><i class="fa-solid fa-user"></i></div><div><div class="testi-name">Rhinoplasty Patient</div><div class="testi-role">Lahore</div></div></div></div></div>
+        <div class="swiper-slide testi-slide"><div class="testi-card"><span class="quote-mark">"</span><p>Dr. Nasir Rafiq's attention to detail on my filler treatment was exactly the natural result I hoped for.</p><div class="testi-foot"><div class="testi-avatar"><i class="fa-solid fa-user"></i></div><div><div class="testi-name">Aesthetic Patient</div><div class="testi-role">Islamabad</div></div></div></div></div>
+        <div class="swiper-slide testi-slide"><div class="testi-card"><span class="quote-mark">"</span><p>From my first call to my final follow-up, every step felt considered and genuinely caring.</p><div class="testi-foot"><div class="testi-avatar"><i class="fa-solid fa-user"></i></div><div><div class="testi-name">Tummy Tuck Patient</div><div class="testi-role">Lahore</div></div></div></div></div>
+        <div class="swiper-slide testi-slide"><div class="testi-card"><span class="quote-mark">"</span><p>My results look completely natural. I finally feel comfortable in photos again.</p><div class="testi-foot"><div class="testi-avatar"><i class="fa-solid fa-user"></i></div><div><div class="testi-name">Facelift Patient</div><div class="testi-role">Karachi</div></div></div></div></div>
+      </div></div>
+      <div class="testi-pagination" style="display:flex; justify-content:center; margin-top:30px; gap:8px;"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:840px;">
+      <div class="section-head center"><span class="eyebrow" style="justify-content:center;">Common Questions</span><h2>Frequently Asked Questions</h2></div>
+      <div data-accordion-group>
+        <div class="accordion-item"><button class="accordion-trigger">How do I book my first consultation?<span class="plus"></span></button><div class="accordion-panel"><div class="accordion-panel__inner">Use our online booking form, call the clinic directly, or message us on WhatsApp — our team will confirm a time with Dr. Noor Ul Ain or Dr. Nasir Rafiq based on your procedure of interest.</div></div></div>
+        <div class="accordion-item"><button class="accordion-trigger">Do you offer non-surgical aesthetic treatments?<span class="plus"></span></button><div class="accordion-panel"><div class="accordion-panel__inner">Yes. We offer a range of non-surgical treatments designed to enhance your appearance with minimal downtime.</div></div></div>
+        <div class="accordion-item"><button class="accordion-trigger">What should I do before my procedure?<span class="plus"></span></button><div class="accordion-panel"><div class="accordion-panel__inner">You'll receive detailed pre-operative instructions, which may include avoiding certain medications, stopping smoking, and arranging transportation after surgery.</div></div></div>
+        <div class="accordion-item"><button class="accordion-trigger">What happens during the first consultation?<span class="plus"></span></button><div class="accordion-panel"><div class="accordion-panel__inner">Your consultation includes a medical assessment, discussion of your goals, treatment recommendations, expected outcomes, risks, recovery information, and an opportunity to ask questions.</div></div></div>
+        <div class="accordion-item"><button class="accordion-trigger">Can I combine surgical and non-surgical treatments?<span class="plus"></span></button><div class="accordion-panel"><div class="accordion-panel__inner">Absolutely — many patients combine a surgical procedure with complementary aesthetic treatments as part of one coordinated plan.</div></div></div>
+        <div class="accordion-item"><button class="accordion-trigger">What financing or payment options are available?<span class="plus"></span></button><div class="accordion-panel"><div class="accordion-panel__inner">Our patient coordination team will walk you through available payment structures during your consultation.</div></div></div>
       </div>
     </div>
   </section>
@@ -258,6 +266,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/data.js?v=20260724120000"></script>
 <script src="js/script.js?v=20260724120000"></script>
 <script src="js/clinic-gallery.js?v=20260724120000"></script>
