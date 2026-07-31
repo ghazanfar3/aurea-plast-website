@@ -591,6 +591,14 @@ p.hero__lead{
 .feat-card h4{ margin-bottom:10px; }
 .feat-card p{ color:#5a5751; font-size:.92rem; }
 
+/* Keep the Core Values cards uniformly sized without affecting other card grids. */
+.core-values-grid{ grid-auto-rows:1fr; }
+.core-values-grid .feat-card{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
 /* Why choose us */
 .reason{ display:flex; gap:20px; align-items:flex-start; padding:26px 0; border-top:1px solid var(--hairline); }
 .reason:last-child{ border-bottom:1px solid var(--hairline); }
