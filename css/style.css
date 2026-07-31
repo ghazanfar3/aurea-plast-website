@@ -664,8 +664,8 @@ p.hero__lead{
 .testi-role{ font-size:.78rem; color:#8a877f; }
 
 /* Stats */
-.stat-band{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
-@media(max-width:760px){ .stat-band{ grid-template-columns:repeat(2,1fr); } }
+.stat-band{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+@media(max-width:640px){ .stat-band{ grid-template-columns:1fr; } }
 .stat-item{ text-align:center; padding:20px 10px; }
 .stat-item .stat-number{ font-family:var(--font-display); font-size:clamp(2.2rem,4vw,3.2rem); color:var(--accent); }
 .stat-item .stat-label{ font-family:var(--font-heading); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; opacity:.72; margin-top:6px; }
