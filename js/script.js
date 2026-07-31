@@ -79,10 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Build combined pool from data.js globals
     const allItems = [];
     if (typeof PLASTIC_SURGERY_PROCEDURES !== 'undefined') {
-      PLASTIC_SURGERY_PROCEDURES.forEach(p => allItems.push({ ...p, page: 'plastic-surgery.html' }));
+      PLASTIC_SURGERY_PROCEDURES.forEach(p => allItems.push({ ...p, page: '/plastic-surgery' }));
     }
     if (typeof AESTHETIC_PROCEDURES !== 'undefined') {
-      AESTHETIC_PROCEDURES.forEach(p => allItems.push({ ...p, page: 'aesthetic-procedures.html' }));
+      AESTHETIC_PROCEDURES.forEach(p => allItems.push({ ...p, page: '/aesthetic-procedures' }));
     }
 
     const hits = allItems.filter(p =>
@@ -427,8 +427,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="modal-section"><h5>${isAesthetic ? 'Expected Results' : 'Risks & Considerations'}</h5><p>${isAesthetic ? item.results : item.risks}</p></div>
       <div class="modal-section"><h5>FAQs</h5>${item.faqs.map(f => `<p><strong>${f.q}</strong><br>${f.a}</p>`).join('')}</div>
       <div class="modal-cta">
-        <a href="appointment.html" class="btn btn-primary ripple">Book Consultation</a>
-        <a href="contact.html" class="btn btn-outline">Ask a Question</a>
+        <a href="/appointment" class="btn btn-primary ripple">Book Consultation</a>
+        <a href="/contact" class="btn btn-outline">Ask a Question</a>
       </div>`;
     overlay.classList.add('is-open');
     document.body.style.overflow = 'hidden';
@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="icon-tile">${iconWrap(item.icon)}</div>
         <h4>${item.name}</h4>
         <p>${item.overview.slice(0, 86)}…</p>
-        <a class="btn-ghost" href="plastic-surgery.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+        <a class="btn-ghost" href="/plastic-surgery">Learn More <i class="fa-solid fa-arrow-right"></i></a>
       </div>`).join('');
   }
   const featAesthetic = document.querySelector('#featAestheticGrid');
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="icon-tile">${iconWrap(item.icon)}</div>
         <h4>${item.name}</h4>
         <p>${item.overview.slice(0, 86)}…</p>
-        <a class="btn-ghost" href="aesthetic-procedures.html">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+        <a class="btn-ghost" href="/aesthetic-procedures">Learn More <i class="fa-solid fa-arrow-right"></i></a>
       </div>`).join('');
   }
 
