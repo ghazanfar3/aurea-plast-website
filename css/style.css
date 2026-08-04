@@ -138,6 +138,26 @@ p.lead{
 }
 .section-head.center{ margin-left:auto; margin-right:auto; text-align:center; }
 .section-head h2{ margin-top:14px; }
+/* Title + action row (View All, etc.) — full container width so the link never wraps */
+.section-head--row,
+.section-head.flex-between{
+  max-width:none;
+  width:100%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:clamp(16px, 3vw, 32px);
+}
+.section-head--row > :first-child,
+.section-head.flex-between > :first-child{
+  min-width:0;
+  flex:1 1 auto;
+}
+.section-head--row > .btn-ghost,
+.section-head.flex-between > .btn-ghost{
+  flex:0 0 auto;
+  white-space:nowrap;
+}
 
 /* ------------------------------- Section rhythm -------------------------- */
 
@@ -240,6 +260,7 @@ p.lead{
   color:var(--primary);
   display:inline-flex; align-items:center; gap:8px;
   border-bottom:1px solid transparent;
+  white-space:nowrap;
 }
 .btn-ghost i{ transition:transform var(--dur-s) var(--ease); }
 .btn-ghost:hover i{ transform:translateX(5px); }
@@ -579,25 +600,33 @@ p.hero__lead{
 .doctor-card__list li{ font-size:.88rem; color:#5a5751; display:flex; gap:10px; align-items:flex-start; }
 .doctor-card__list i{ color:var(--primary); margin-top:4px; font-size:.72rem; }
 
-/* Feature / procedure preview card */
-.feat-card{ padding:34px 28px; position:relative; }
+/* Feature / procedure preview card — equal-height flex column so CTAs align */
+.feat-card{
+  padding:34px 28px;
+  position:relative;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
 .feat-card .icon-tile{
   width:56px; height:56px; border-radius:16px;
   background:linear-gradient(150deg,var(--ivory),var(--ivory-shade));
   display:flex; align-items:center; justify-content:center;
   color:var(--primary); font-size:1.35rem; margin-bottom:22px;
   border:1px solid var(--hairline);
+  flex:0 0 auto;
 }
-.feat-card h4{ margin-bottom:10px; }
-.feat-card p{ color:#5a5751; font-size:.92rem; }
+.feat-card h4{ margin-bottom:10px; flex:0 0 auto; }
+.feat-card p{ color:#5a5751; font-size:.92rem; flex:0 1 auto; }
+/* Pin Learn More / ghost CTAs to the card footer across the row */
+.feat-card > .btn-ghost{
+  margin-top:auto;
+  padding-top:18px;
+  align-self:flex-start;
+}
 
-/* Keep the Core Values cards uniformly sized without affecting other card grids. */
+/* Keep Core Values cards on equal-height grid rows (flex layout comes from .feat-card). */
 .core-values-grid{ grid-auto-rows:1fr; }
-.core-values-grid .feat-card{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-}
 
 /* Why choose us */
 .reason{ display:flex; gap:20px; align-items:flex-start; padding:26px 0; border-top:1px solid var(--hairline); }
@@ -606,14 +635,15 @@ p.hero__lead{
 .reason h4{ margin-bottom:6px; }
 .reason p{ color:#5a5751; font-size:.92rem; }
 
-/* Patient journey timeline — flex track sized by its children (any N steps).
-   Connectors are drawn per-step (dot center → next dot center), so the dashed
-   line never trails past the last circle into empty column space. */
+/* Patient journey timeline — equal-width steps, centered as a group.
+   Circles are centered in each column so the row optically centers under
+   the heading; connectors run circle-center → circle-center only. */
 .journey{
   position:relative;
   padding-left:0;
   --journey-dot-size:52px;
-  --journey-gap:clamp(28px, 4vw, 52px);
+  --journey-gap:clamp(36px, 4.5vw, 56px);
+  --journey-step-width:clamp(168px, 20vw, 240px);
 }
 .journey__track{
   position:relative;
@@ -621,28 +651,47 @@ p.hero__lead{
   justify-content:center;
   align-items:flex-start;
   gap:var(--journey-gap);
-  width:100%;
+  width:fit-content;
+  max-width:100%;
+  margin-inline:auto;
 }
 .journey__spine{ display:none; } /* legacy full-width spine; connectors are per-step */
 .journey__step{
   position:relative;
-  flex:1 1 0;
+  flex:0 1 var(--journey-step-width);
+  width:var(--journey-step-width);
   min-width:0;
-  max-width:280px;
+  box-sizing:border-box;
+  text-align:center;
 }
-/* Line from this step's circle center across the gap to the next circle center */
+/* Line from this circle's center to the next circle's center */
 .journey__step:not(:last-child)::after{
   content:'';
   position:absolute;
   z-index:0;
   pointer-events:none;
-  top:calc(var(--journey-dot-size) / 2);
-  left:calc(var(--journey-dot-size) / 2);
+  top:calc((var(--journey-dot-size) - 1px) / 2);
+  left:50%;
   width:calc(100% + var(--journey-gap));
   height:1px;
   background:repeating-linear-gradient(90deg,var(--primary) 0 6px,transparent 6px 12px);
 }
-.journey__dot{ width:var(--journey-dot-size); height:var(--journey-dot-size); border-radius:50%; background:var(--dark); color:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-style:italic; font-size:1.1rem; position:relative; z-index:1; margin-bottom:20px; }
+.journey__dot{
+  width:var(--journey-dot-size);
+  height:var(--journey-dot-size);
+  border-radius:50%;
+  background:var(--dark);
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-display);
+  font-style:italic;
+  font-size:1.1rem;
+  position:relative;
+  z-index:1;
+  margin:0 auto 20px;
+}
 .journey__step h4{ margin-bottom:8px; }
 .journey__step p{ font-size:.86rem; color:#5a5751; }
 
@@ -664,11 +713,18 @@ p.hero__lead{
     grid-template-columns:var(--journey-dot-size) 1fr;
     column-gap:20px;
     padding-bottom:36px;
+    width:auto;
+    flex:none;
     min-width:0;
     max-width:none;
+    text-align:left;
   }
   .journey__step:last-child{ padding-bottom:0; }
-  .journey__dot{ grid-column:1; grid-row:1 / span 2; margin-bottom:0; }
+  .journey__dot{
+    grid-column:1;
+    grid-row:1 / span 2;
+    margin:0;
+  }
   .journey__step h4{ grid-column:2; grid-row:1; align-self:start; margin-top:2px; }
   .journey__step p{ grid-column:2; grid-row:2; }
   .journey__step::before{
