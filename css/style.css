@@ -741,11 +741,43 @@ p.hero__lead{
 
 /* Before / After */
 .ba-card{ position:relative; }
-.ba-media{ position:relative; aspect-ratio:4/5; overflow:hidden; cursor:ew-resize; background:#e5ddd0; }
+.ba-media{
+  position:relative;
+  aspect-ratio:4/5;
+  overflow:hidden;
+  cursor:ew-resize;
+  background:#e5ddd0;
+  container-type:size;
+}
 .ba-media .side{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); letter-spacing:.14em; font-size:.7rem; text-transform:uppercase; }
 .ba-media .before{ background:linear-gradient(160deg,#d8cdb8,#c3b491); color:rgba(31,31,31,.5); }
 .ba-media .after{ position:absolute; inset:0; width:50%; overflow:hidden; background:linear-gradient(160deg,#efe7d8,#dcd0b3); color:rgba(31,31,31,.4); display:flex; align-items:center; justify-content:center; border-right:2px solid var(--accent); }
 .ba-media .after span{ width:calc(100vw); max-width:420px; text-align:center; }
+.ba-media.has-images .before,
+.ba-media.has-images .after{ background:none; color:transparent; }
+.ba-media.has-images .before span,
+.ba-media.has-images .after span{ display:none; }
+.ba-media .ba-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+  pointer-events:none;
+  user-select:none;
+}
+/* Keep after-image full media width so the clip reveals the correct crop */
+.ba-media .after .ba-img{
+  width:100cqw;
+  height:100cqh;
+  max-width:none;
+  left:0;
+  top:0;
+  right:auto;
+  bottom:auto;
+}
 .ba-handle{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:38px; height:38px; border-radius:50%; background:var(--white); color:var(--dark); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-soft); font-size:.8rem; z-index:2; }
 .ba-slider{ position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:ew-resize; z-index:3; margin:0; }
 .ba-body{ padding:22px 24px 26px; }

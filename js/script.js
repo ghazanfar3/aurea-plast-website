@@ -3,6 +3,51 @@
    Shared interactivity across all pages.
    ========================================================================== */
 
+/** Build before/after media markup; uses real images when paths are present. */
+function baMediaHtml(story) {
+  const hasImages = !!(story && story.before && story.after);
+  const beforeInner = hasImages
+    ? `<img class="ba-img" src="${story.before}" alt="Before — ${story.proc}" width="800" height="1000" loading="lazy" decoding="async">`
+    : `<span>Before</span>`;
+  const afterInner = hasImages
+    ? `<img class="ba-img" src="${story.after}" alt="After — ${story.proc}" width="800" height="1000" loading="lazy" decoding="async">`
+    : `<span>After</span>`;
+  return `<div class="ba-media${hasImages ? ' has-images' : ''}">
+      <div class="before side">${beforeInner}</div>
+      <div class="after">${afterInner}</div>
+      <div class="ba-handle"><i class="fa-solid fa-arrows-left-right" aria-hidden="true"></i></div>
+      <input type="range" class="ba-slider" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+    </div>`;
+}
+
+/** Wire slider behaviour for every .ba-media inside root. */
+function initBaSliders(root = document) {
+  root.querySelectorAll('.ba-media').forEach(media => {
+    if (media.dataset.baReady) return;
+    media.dataset.baReady = '1';
+    const after = media.querySelector('.after');
+    const handle = media.querySelector('.ba-handle');
+    const range = media.querySelector('.ba-slider');
+    const afterImg = media.querySelector('.after .ba-img');
+    const syncAfterImg = () => {
+      if (afterImg) afterImg.style.width = media.offsetWidth + 'px';
+    };
+    syncAfterImg();
+    window.addEventListener('resize', syncAfterImg, { passive: true });
+    const set = (pct) => {
+      pct = Math.max(0, Math.min(100, pct));
+      after.style.width = pct + '%';
+      handle.style.left = pct + '%';
+      if (range && String(range.value) !== String(Math.round(pct))) range.value = Math.round(pct);
+    };
+    if (range) range.addEventListener('input', () => set(Number(range.value)));
+    media.addEventListener('mousemove', (e) => {
+      const rect = media.getBoundingClientRect();
+      set(((e.clientX - rect.left) / rect.width) * 100);
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------------------------- Preloader ---------------------------- */
@@ -272,23 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
   counters.forEach(el => counterObserver.observe(el));
 
   /* ------------------------- Before/After slider ------------------------- */
-  document.querySelectorAll('.ba-media').forEach(media => {
-    const after = media.querySelector('.after');
-    const handle = media.querySelector('.ba-handle');
-    const range = media.querySelector('.ba-slider');
-    const set = (pct) => {
-      pct = Math.max(0, Math.min(100, pct));
-      after.style.width = pct + '%';
-      handle.style.left = pct + '%';
-    };
-    if (range) {
-      range.addEventListener('input', () => set(range.value));
-    }
-    media.addEventListener('mousemove', (e) => {
-      const rect = media.getBoundingClientRect();
-      set(((e.clientX - rect.left) / rect.width) * 100);
-    });
-  });
+  initBaSliders(document);
 
   /* ------------------------------ Newsletter ------------------------------ */
   /* Handled by js/forms.js */
@@ -474,12 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function storyCard(s) {
       return `<div class="card ba-card reveal">
-        <div class="ba-media">
-          <div class="before side"><span>Before</span></div>
-          <div class="after"><span>After</span></div>
-          <div class="ba-handle"><i class="fa-solid fa-arrows-left-right"></i></div>
-          <input type="range" class="ba-slider" min="0" max="100" value="50" aria-label="Drag to compare before and after">
-        </div>
+        ${baMediaHtml(s)}
         <div class="ba-body">
           <span class="ba-tag">${s.cat}</span>
           <h4>${s.proc}</h4>
@@ -495,17 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function paintStories() {
       const filtered = SUCCESS_STORIES.filter(s => activeStoryCat === 'All' || s.cat === activeStoryCat);
       storyGrid.innerHTML = filtered.map(storyCard).join('');
-      storyGrid.querySelectorAll('.ba-media').forEach(media => {
-        const after = media.querySelector('.after');
-        const handle = media.querySelector('.ba-handle');
-        const range = media.querySelector('.ba-slider');
-        const set = (pct) => { pct = Math.max(0, Math.min(100, pct)); after.style.width = pct + '%'; handle.style.left = pct + '%'; };
-        range.addEventListener('input', () => set(range.value));
-        media.addEventListener('mousemove', (e) => {
-          const rect = media.getBoundingClientRect();
-          set(((e.clientX - rect.left) / rect.width) * 100);
-        });
-      });
+      initBaSliders(storyGrid);
       storyGrid.querySelectorAll('.reveal').forEach(el => requestAnimationFrame(() => el.classList.add('in')));
     }
     if (storyFilters) {

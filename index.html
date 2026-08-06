@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css"></noscript>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-<link rel="stylesheet" href="css/style.css?v=20260804190000">
+<link rel="stylesheet" href="css/style.css?v=20260806210000">
 <link rel="stylesheet" href="css/components.css?v=20260731173000">
 <link rel="stylesheet" href="css/clinic.css?v=20260731173000">
 <script type="application/ld+json">
@@ -418,27 +418,17 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const grid = document.querySelector('#homeBaGrid');
-      if (!grid) return;
-      grid.innerHTML = SUCCESS_STORIES.slice(0,3).map(s => `
+      if (!grid || typeof SUCCESS_STORIES === 'undefined') return;
+      grid.innerHTML = SUCCESS_STORIES.slice(0, 3).map(s => `
         <div class="card ba-card reveal in">
-          <div class="ba-media">
-            <div class="before side"><span>Before</span></div>
-            <div class="after"><span>After</span></div>
-            <div class="ba-handle"><i class="fa-solid fa-arrows-left-right"></i></div>
-            <input type="range" class="ba-slider" min="0" max="100" value="50" aria-label="Drag to compare before and after">
-          </div>
+          ${baMediaHtml(s)}
           <div class="ba-body">
             <span class="ba-tag">${s.cat}</span><h4>${s.proc}</h4>
-            <div class="stars">${'★'.repeat(s.rating)}${'☆'.repeat(5-s.rating)}</div>
+            <div class="stars">${'★'.repeat(s.rating)}${'☆'.repeat(5 - s.rating)}</div>
             <p>"${s.review}"</p>
           </div>
         </div>`).join('');
-      grid.querySelectorAll('.ba-media').forEach(media => {
-        const after = media.querySelector('.after'), handle = media.querySelector('.ba-handle'), range = media.querySelector('.ba-slider');
-        const set = (pct) => { pct = Math.max(0,Math.min(100,pct)); after.style.width = pct+'%'; handle.style.left = pct+'%'; };
-        range.addEventListener('input', () => set(range.value));
-        media.addEventListener('mousemove', (e) => { const r = media.getBoundingClientRect(); set(((e.clientX-r.left)/r.width)*100); });
-      });
+      initBaSliders(grid);
     });
   </script>
 
@@ -586,8 +576,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
-<script src="js/data.js?v=20260731173000" defer></script>
-<script src="js/script.js?v=20260731173000" defer></script>
+<script src="js/data.js?v=20260806210000" defer></script>
+<script src="js/script.js?v=20260806210000" defer></script>
 <script src="js/clinic-gallery.js?v=20260731173000" defer></script>
 <script src="js/animations.js?v=20260731173000" defer></script>
 </body>
