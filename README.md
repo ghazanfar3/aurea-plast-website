@@ -4,107 +4,118 @@ Static website for **Aurea Plast** (plastic & aesthetic clinic, Lahore).
 
 | | |
 |---|---|
+| **Your local folder** | `C:\Users\Malik Ghazanfar\Downloads\Demo Pages\aurea-plast` |
 | **GitHub** | https://github.com/ghazanfar3/aurea-plast-website |
 | **Live site** | https://aureaplastclinic.com |
-| **Deploy** | GitHub Pages (publishes the `main` branch) |
+| **Deploy** | GitHub Pages (`main` branch) — **only when you ask to deploy** |
 
 ---
 
-## How work flows (local → GitHub → live)
+## Rule: local first, deploy on request
 
 ```
-1. Edit files on your computer (local)
-2. Preview in the browser (local server)
-3. Commit + push to GitHub
-4. Merge into main  →  GitHub Pages updates the live site
+1. Open / edit the local folder on your PC
+2. Preview locally in the browser
+3. Save changes (commit) when ready
+4. Deploy to GitHub / live site ONLY when you say "deploy"
 ```
 
-**Do not edit the live site directly.** Always change files locally (or in Cursor), push to GitHub, then deploy via `main`.
+Until you ask to deploy, changes stay on your computer (and optional feature branches). The live site is not updated automatically by day-to-day edits.
 
 ---
 
-## 1. Connect this project on your computer
+## Connect your local folder to GitHub (Windows)
 
-### First time (clone)
+Your working folder:
 
-```bash
-git clone https://github.com/ghazanfar3/aurea-plast-website.git
-cd aurea-plast-website
+`C:\Users\Malik Ghazanfar\Downloads\Demo Pages\aurea-plast`
+
+### Option A — PowerShell script (easiest)
+
+1. Install Git if needed: https://git-scm.com/download/win  
+2. Open **PowerShell** and run:
+
+```powershell
+cd "C:\Users\Malik Ghazanfar\Downloads\Demo Pages\aurea-plast"
+
+# If this folder does not have scripts yet, clone first into a temp place
+# or download connect-windows.ps1 from the GitHub repo, then:
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\connect-windows.ps1
 ```
 
-### Already have the folder
+If the folder is empty / not a git repo yet, you can also clone directly:
 
-```bash
-cd aurea-plast-website
-git remote -v
-# should show: origin → github.com/ghazanfar3/aurea-plast-website
-git pull origin main
+```powershell
+cd "C:\Users\Malik Ghazanfar\Downloads\Demo Pages"
+git clone https://github.com/ghazanfar3/aurea-plast-website.git aurea-plast
+cd aurea-plast
 ```
 
-If `origin` is missing:
+### Option B — Manual commands
 
-```bash
+```powershell
+cd "C:\Users\Malik Ghazanfar\Downloads\Demo Pages\aurea-plast"
+git init
+git remote remove origin 2>$null
 git remote add origin https://github.com/ghazanfar3/aurea-plast-website.git
 git fetch origin
-git checkout main
+git checkout -B main origin/main
 git pull origin main
+git remote -v
 ```
+
+You should see `origin` pointing at `ghazanfar3/aurea-plast-website`.
+
+### Open in Cursor
+
+**File → Open Folder** → select:
+
+`C:\Users\Malik Ghazanfar\Downloads\Demo Pages\aurea-plast`
+
+Then ask Cursor to make website changes here. Say **deploy** only when you want them on the live site.
 
 ---
 
-## 2. Work locally (before deploying)
+## Preview locally (before deploy)
 
-Preview the site on your machine:
-
-```bash
-chmod +x scripts/serve.sh   # once
-./scripts/serve.sh
+```powershell
+cd "C:\Users\Malik Ghazanfar\Downloads\Demo Pages\aurea-plast"
+python -m http.server 4173
 ```
 
-Open **http://127.0.0.1:4173/** in your browser.
-
-Or without the script:
-
-```bash
-python3 -m http.server 4173 --bind 127.0.0.1
-```
-
-Edit HTML / CSS / JS under this folder, refresh the browser, and confirm the change looks right **locally first**.
+Open http://127.0.0.1:4173/
 
 ---
 
-## 3. Save to GitHub
+## Save work (local / GitHub backup, not live yet)
 
-```bash
-git status
+```powershell
 git add .
-git commit -m "Describe your change clearly"
+git commit -m "Describe your change"
 git push -u origin HEAD
 ```
 
-Use a feature branch for larger work:
+Using a feature branch keeps `main` (live site) unchanged until deploy:
 
-```bash
+```powershell
 git checkout -b feature/my-update
-# ... edit, commit ...
+# edit files...
+git add .
+git commit -m "Describe your change"
 git push -u origin feature/my-update
 ```
 
-Then open a Pull Request on GitHub and merge into `main` when ready.
-
 ---
 
-## 4. Deploy to the live website
+## Deploy (only when you ask)
 
-GitHub Pages is connected to the **`main`** branch (folder `/`).
+When you say **deploy**, we will:
 
-- Push or merge to **`main`** → site rebuilds automatically
-- Live URL: **https://aureaplastclinic.com**
-- Custom domain file: `CNAME` → `aureaplastclinic.com`
+1. Merge / push approved changes to **`main`**
+2. Let GitHub Pages rebuild **https://aureaplastclinic.com**
 
-Check deploy status: GitHub → **Settings → Pages** (or the repo’s Actions / Pages build).
-
-Usually live within about 1 minute after `main` updates.
+That is the only step that updates the public website.
 
 ---
 
@@ -117,16 +128,7 @@ Usually live within about 1 minute after `main` updates.
 ├── js/                        Scripts
 ├── assets/                    Images & media
 ├── CNAME                      GitHub Pages custom domain
-├── scripts/serve.sh           Local preview server
+├── scripts/serve.sh           Local preview (Mac/Linux)
+├── scripts/connect-windows.ps1  Connect Windows folder to GitHub
 └── README.md                  This file
 ```
-
----
-
-## Quick checklist
-
-1. Pull latest `main`
-2. Edit locally
-3. Preview with `./scripts/serve.sh`
-4. Commit + push to GitHub
-5. Merge to `main` to deploy live
