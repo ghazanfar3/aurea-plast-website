@@ -19,4 +19,4 @@ jobs:
         server: 195.35.62.105
         username: u521630667
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ./
+        server-dir: /domains/aureaplastclinic.com/public_html/
