@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -249,17 +249,13 @@
 <main id="main">
 
   <!-- HERO -->
-  <section class="hero">
+    <section class="hero hero--split">
     <div class="hero__bg"></div>
-    <div class="hero__media" aria-hidden="true">
-      <img class="hero__media-img clinic-photo" src="assets/images/clinic/reception-lounge-v4.jpg" alt="" width="1012" height="1800" fetchpriority="high" decoding="async">
-      <div class="hero__media-fade"></div>
-    </div>
     <div class="hero__grain"></div>
     <div class="hero__frame"></div>
     <div class="container hero__content">
-      <div>
-        <span class="eyebrow hero__eyebrow">Aurea Plast · Lahore</span>
+      <div class="hero__text-col">
+        <span class="eyebrow hero__eyebrow">Aurea Plast — Lahore</span>
         <h1 class="hero__title">
           <span class="line"><span>Precision Surgery,</span></span>
           <span class="line"><span><em>Timeless</em> Artistry.</span></span>
@@ -270,15 +266,25 @@
           <a href="/appointment" class="btn btn-primary ripple">Book a Consultation</a>
           <a href="/plastic-surgery" class="btn btn-outline">Explore Procedures</a>
         </div>
-      </div>
-      <div class="hero__side">
-        <div class="hero__card">
-          <div class="stat-number" data-counter="7" data-suffix="+">0</div>
-          <div class="stat-label">Years Combined Experience</div>
+        <div class="hero__side" style="margin-top: 40px; display: flex; gap: 2rem;">
+          <div class="hero__card">
+            <div class="stat-number" data-counter="7" data-suffix="+">0</div>
+            <div class="stat-label">Years Combined Experience</div>
+          </div>
+          <div class="hero__card">
+            <div class="stat-number" data-counter="800" data-suffix="+">0</div>
+            <div class="stat-label">Procedures Performed</div>
+          </div>
         </div>
-        <div class="hero__card">
-          <div class="stat-number" data-counter="800" data-suffix="+">0</div>
-          <div class="stat-label">Procedures Performed</div>
+      </div>
+      <div class="hero__img-col gsap-hero-img">
+        <div class="hero-image-wrapper">
+          <picture>
+            <source srcset="assets/images/hero-doctors.webp" type="image/webp">
+            <img src="assets/images/hero-doctors.jpg" alt="Dr. Noor and Dr. Nasir Rafiq at Aurea Plast Aesthetic and Reconstructive Clinic" width="800" height="1000" fetchpriority="high" decoding="async">
+          </picture>
+          <div class="hero-badge glass">Trusted Aesthetic &amp; Reconstructive Care</div>
+          <div class="hero-img-gradient"></div>
         </div>
       </div>
     </div>
@@ -588,3 +594,4 @@
 <script src="js/animations.js?v=20260731173000" defer></script>
 </body>
 </html>
+

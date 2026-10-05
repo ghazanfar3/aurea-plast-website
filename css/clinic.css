@@ -387,3 +387,110 @@
   opacity:1;
   filter:brightness(1.02) contrast(1.04);
 }
+
+
+/* Split Hero Additions */
+.hero--split .hero__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 4;
+}
+.hero--split .hero__text-col {
+  padding-right: 20px;
+}
+.hero-image-wrapper {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(214, 185, 125, 0.15), 0 20px 40px rgba(5,28,48,0.5);
+  border: 1px solid rgba(214, 185, 125, 0.3);
+  transform: scale(1.05);
+  opacity: 0;
+  animation: heroImageIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+@keyframes heroImageIn {
+  from { transform: scale(1.05); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.hero-image-wrapper picture, .hero-image-wrapper img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 85vh;
+  object-fit: cover;
+  object-position: center top;
+}
+.hero-img-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(5,28,48,0.4) 0%, transparent 30%);
+  pointer-events: none;
+}
+.hero-badge.glass {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  text-transform: uppercase;
+  z-index: 2;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 1024px) {
+  .hero--split .hero__content {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 40px;
+  }
+}
+@media (max-width: 980px) {
+  .hero--split .hero__content {
+    grid-template-columns: 1fr;
+  }
+  .hero--split .hero__text-col {
+    padding-right: 0;
+    text-align: center;
+  }
+  .hero--split .hero__cta {
+    justify-content: center;
+  }
+  .hero--split .hero__side {
+    justify-content: center;
+    margin-top: 30px !important;
+  }
+  .hero__thread {
+    margin: 0 auto 20px;
+  }
+  .hero-image-wrapper {
+    max-height: 500px;
+    margin-top: 40px;
+  }
+}
+@media (max-width: 640px) {
+  .hero-badge.glass {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    text-align: center;
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-image-wrapper {
+    animation: none !important;
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+}
