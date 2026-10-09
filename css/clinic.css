@@ -365,3 +365,138 @@
 
 
 
+
+/* Contact Info Section */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  gap: 30px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(5,28,48,0.06);
+}
+.contact-info-card {
+  padding: 40px;
+}
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.contact-list li {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.contact-list li i {
+  color: var(--pink);
+  font-size: 1.25rem;
+  margin-top: 4px;
+}
+.contact-list strong {
+  display: block;
+  color: var(--navy);
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+  font-family: var(--font-serif);
+}
+.contact-list p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.contact-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--navy);
+  text-decoration: underline;
+  text-decoration-color: rgba(214,41,142,0.3);
+  text-underline-offset: 4px;
+  transition: all 0.3s ease;
+}
+.contact-link:hover {
+  text-decoration-color: var(--pink);
+  color: var(--pink);
+}
+.hours-table {
+  width: 100%;
+  font-size: 0.9rem;
+  color: #555;
+  border-collapse: collapse;
+}
+.hours-table td {
+  padding: 4px 0;
+}
+.hours-table td:last-child {
+  text-align: right;
+  font-weight: 500;
+}
+.hours-table tr.today {
+  color: var(--navy);
+  font-weight: 500;
+}
+.hours-badge {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.badge-open {
+  background: rgba(46,204,113,0.15);
+  color: #2ecc71;
+}
+.badge-closed {
+  background: rgba(231,76,60,0.1);
+  color: #e74c3c;
+}
+.contact-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+.contact-map-wrapper {
+  position: relative;
+  min-height: 400px;
+  border-left: 1px solid rgba(214,41,142,0.15);
+}
+.contact-map-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-map-wrapper {
+    min-height: 350px;
+    border-left: none;
+    border-top: 1px solid rgba(214,41,142,0.15);
+  }
+}
+@media (max-width: 640px) {
+  .contact-info-card {
+    padding: 24px;
+  }
+  .contact-actions {
+    flex-direction: column;
+  }
+  .contact-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .contact-map-wrapper {
+    min-height: 300px;
+  }
+}
