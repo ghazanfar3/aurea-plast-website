@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    AUREA PLAST — Core Design System
    Signature element: "The Suture Line" — a fine gold thread that stitches
    through section transitions and the patient journey, echoing the
@@ -423,9 +423,9 @@ p.lead{
   border-radius:2px;
   pointer-events:none;
 }
-.hero__content{ position:relative; z-index:2; width:100%; }
-.hero .container{ display:grid; grid-template-columns:1.4fr .9fr; gap:60px; align-items:end; }
-@media(max-width:900px){ .hero .container{ grid-template-columns:1fr; } }
+
+
+@media(max-width:900px){  }
 
 .hero__eyebrow{ color:var(--accent); }
 .hero__title{ margin-top:22px; }
@@ -985,3 +985,4 @@ p.hero__lead{
   display:none;
 }
 .search-overlay__empty.is-visible{ display:block; }
+
