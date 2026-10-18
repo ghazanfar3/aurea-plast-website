@@ -694,10 +694,192 @@ p.hero__lead{
 @media(max-width:640px){ .grid-2,.grid-3,.grid-4{ grid-template-columns:1fr; } }
 
 /* Doctor card */
+/* Doctor card */
 .doctor-card{ position:relative; }
-.doctor-card__media{ aspect-ratio:4/5; background:linear-gradient(160deg,#e7ded0,#cbb98c); position:relative; overflow:hidden; }
-.doctor-card__media i{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:3rem; color:rgba(31,31,31,.25); }
-.doctor-card__media img{ display:block; width:100%; height:100%; object-fit:cover; object-position:50% 32%; filter:brightness(1.02) contrast(1.04) saturate(.96); }
+.doctor-card__media{
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(160deg, #e7ded0, #cbb98c);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-m) var(--radius-m) 0 0;
+  width: 100%;
+}
+.doctor-card__poster-btn{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+}
+.doctor-card__poster-btn:focus-visible{
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+.doctor-card__poster-img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 32%;
+  filter: brightness(1.02) contrast(1.04) saturate(.96);
+  transition: filter 0.35s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.doctor-card__poster-btn:hover .doctor-card__poster-img,
+.doctor-card__poster-btn:focus-visible .doctor-card__poster-img{
+  filter: brightness(1.08) contrast(1.05) saturate(1.02);
+  transform: scale(1.03);
+}
+.doctor-card__play-wrap{
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.doctor-card__play-circle{
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(5, 28, 48, 0.35);
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.25s ease;
+}
+.doctor-card__play-circle i{
+  margin-left: 4px;
+  color: var(--primary);
+  font-size: 1.35rem;
+}
+.doctor-card__play-circle::before{
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0.8;
+  animation: playPulse 2.4s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  pointer-events: none;
+}
+@keyframes playPulse{
+  0%{ transform: scale(0.95); opacity: 0.8; }
+  50%{ transform: scale(1.22); opacity: 0.3; }
+  100%{ transform: scale(1.38); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce){
+  .doctor-card__play-circle::before{
+    animation: none;
+    opacity: 0.5;
+    transform: none;
+  }
+}
+.doctor-card__poster-btn:hover .doctor-card__play-circle,
+.doctor-card__poster-btn:focus-visible .doctor-card__play-circle{
+  transform: scale(1.08);
+  background: #ffffff;
+}
+.doctor-card__play-label{
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(5, 28, 48, 0.85);
+  transition: transform 0.25s ease;
+}
+.doctor-card__poster-btn:hover .doctor-card__play-label{
+  transform: translateY(-2px);
+}
+.doctor-card__iframe{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 3;
+  background: #000000;
+}
+.doctor-card__close-video{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(5, 28, 48, 0.75);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 4;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+.doctor-card__close-video:hover{
+  background: var(--accent);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+.doctor-card__yt-fallback{
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(5, 28, 48, 0.85);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-heading);
+  border: 1px solid rgba(var(--accent-rgb), 0.5);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.doctor-card__yt-fallback:hover{
+  background: var(--accent);
+  color: #ffffff;
+}
+@media (max-width: 1024px){
+  .doctor-card__play-circle{
+    width: 56px;
+    height: 56px;
+  }
+  .doctor-card__play-circle i{
+    font-size: 1.1rem;
+  }
+}
+@media (max-width: 640px){
+  .doctor-card__media{
+    max-height: 75svh;
+  }
+}
 .doctor-card__body{ padding:28px 26px 30px; }
 .doctor-card__role{ font-family:var(--font-heading); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--primary); }
 .doctor-card__body h3{ margin-top:8px; }

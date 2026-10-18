@@ -244,6 +244,94 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  /* ------------------------------ Doctor Cards Video Player ------------------------------ */
+  let ytPreconnected = false;
+  function preconnectYT() {
+    if (ytPreconnected) return;
+    ytPreconnected = true;
+    const link1 = document.createElement('link');
+    link1.rel = 'preconnect';
+    link1.href = 'https://www.youtube-nocookie.com';
+    document.head.appendChild(link1);
+  }
+
+  const doctorMediaEls = document.querySelectorAll('.doctor-card__media[data-video-id]');
+  doctorMediaEls.forEach(media => {
+    const posterBtn = media.querySelector('.doctor-card__poster-btn');
+    if (!posterBtn) return;
+
+    // Preconnect on hover or touch
+    posterBtn.addEventListener('mouseenter', preconnectYT, { once: true });
+    posterBtn.addEventListener('touchstart', preconnectYT, { once: true, passive: true });
+
+    function playVideo() {
+      preconnectYT();
+
+      // Reset any other playing doctor card
+      doctorMediaEls.forEach(otherMedia => {
+        if (otherMedia !== media) {
+          const otherIframe = otherMedia.querySelector('.doctor-card__iframe');
+          if (otherIframe) otherIframe.remove();
+          const otherClose = otherMedia.querySelector('.doctor-card__close-video');
+          if (otherClose) otherClose.remove();
+          const otherPoster = otherMedia.querySelector('.doctor-card__poster-btn');
+          if (otherPoster) otherPoster.style.display = '';
+        }
+      });
+
+      const videoId = media.dataset.videoId;
+      const title = media.dataset.videoTitle || 'Doctor introduction video';
+      const shortsUrl = media.dataset.shortsUrl || `https://www.youtube.com/shorts/${videoId}`;
+
+      // Hide poster
+      posterBtn.style.display = 'none';
+
+      // Create iframe
+      const iframe = document.createElement('iframe');
+      iframe.className = 'doctor-card__iframe';
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1&modestbranding=1`;
+      iframe.title = title;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+
+      // Close button to return to poster
+      const closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'doctor-card__close-video';
+      closeBtn.setAttribute('aria-label', 'Close video');
+      closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        iframe.remove();
+        closeBtn.remove();
+        posterBtn.style.display = '';
+        posterBtn.focus();
+      });
+
+      // Handle iframe load failure
+      iframe.addEventListener('error', () => {
+        iframe.remove();
+        closeBtn.remove();
+        posterBtn.style.display = '';
+        if (!media.querySelector('.doctor-card__yt-fallback')) {
+          const fallback = document.createElement('a');
+          fallback.className = 'doctor-card__yt-fallback';
+          fallback.href = shortsUrl;
+          fallback.target = '_blank';
+          fallback.rel = 'noopener';
+          fallback.innerHTML = 'Watch on YouTube <i class="fa-solid fa-arrow-up-right-from-square"></i>';
+          media.appendChild(fallback);
+        }
+      });
+
+      media.appendChild(iframe);
+      media.appendChild(closeBtn);
+    }
+
+    posterBtn.addEventListener('click', playVideo);
+  });
+
   /* ------------------------ Scroll progress bar ------------------------ */
   const progressBar = document.querySelector('.scroll-progress__bar');
   const updateProgress = () => {
