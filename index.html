@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <link rel="stylesheet" href="css/style.css?v=202610092255">
 <link rel="stylesheet" href="css/components.css?v=20260731173000">
-<link rel="stylesheet" href="css/clinic.css?v=202610092255">
+<link rel="stylesheet" href="css/clinic.css?v=202610181930">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -459,6 +459,80 @@
     </div>
   </section>
 
+  <!-- GOOGLE REVIEWS -->
+  <section id="google-reviews" class="section shade google-reviews-section" aria-labelledby="google-reviews-title">
+    <div class="container">
+      <div class="section-head center gsap-rise">
+        <span class="eyebrow" style="justify-content:center;">GOOGLE REVIEWS</span>
+        <h2 id="google-reviews-title">Rated by Our Patients on Google</h2>
+        <p class="google-reviews-subtitle">Real reviews from real patients, shared directly from Google.</p>
+      </div>
+
+      <div class="reviews-widget-wrap gsap-rise">
+        <!-- Skeleton Placeholder -->
+        <div class="reviews-skeleton" id="reviewsSkeleton" aria-hidden="true">
+          <div class="reviews-skeleton__header">
+            <div class="reviews-skeleton__badge"></div>
+            <div class="reviews-skeleton__stars"></div>
+          </div>
+          <div class="reviews-skeleton__cards">
+            <div class="reviews-skeleton__card">
+              <div class="reviews-skeleton__user">
+                <div class="reviews-skeleton__avatar"></div>
+                <div class="reviews-skeleton__meta">
+                  <div class="reviews-skeleton__bar" style="width:60%;"></div>
+                  <div class="reviews-skeleton__bar" style="width:40%;"></div>
+                </div>
+              </div>
+              <div class="reviews-skeleton__bar" style="width:100%; margin-top:16px;"></div>
+              <div class="reviews-skeleton__bar" style="width:90%;"></div>
+              <div class="reviews-skeleton__bar" style="width:75%;"></div>
+            </div>
+            <div class="reviews-skeleton__card">
+              <div class="reviews-skeleton__user">
+                <div class="reviews-skeleton__avatar"></div>
+                <div class="reviews-skeleton__meta">
+                  <div class="reviews-skeleton__bar" style="width:55%;"></div>
+                  <div class="reviews-skeleton__bar" style="width:35%;"></div>
+                </div>
+              </div>
+              <div class="reviews-skeleton__bar" style="width:100%; margin-top:16px;"></div>
+              <div class="reviews-skeleton__bar" style="width:85%;"></div>
+              <div class="reviews-skeleton__bar" style="width:70%;"></div>
+            </div>
+            <div class="reviews-skeleton__card">
+              <div class="reviews-skeleton__user">
+                <div class="reviews-skeleton__avatar"></div>
+                <div class="reviews-skeleton__meta">
+                  <div class="reviews-skeleton__bar" style="width:65%;"></div>
+                  <div class="reviews-skeleton__bar" style="width:45%;"></div>
+                </div>
+              </div>
+              <div class="reviews-skeleton__bar" style="width:100%; margin-top:16px;"></div>
+              <div class="reviews-skeleton__bar" style="width:92%;"></div>
+              <div class="reviews-skeleton__bar" style="width:60%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Elfsight Google Reviews Embed -->
+        <div class="elfsight-app-bde6f9c1-8cab-46d1-b220-f0543d2dbba8" data-elfsight-app-lazy></div>
+
+        <!-- Fallback if script fails or is blocked -->
+        <noscript>
+          <div class="reviews-fallback" style="display:block;">
+            <p>Read verified patient experiences directly on Google.</p>
+            <a href="https://www.google.com/maps?cid=1325105483352752683" target="_blank" rel="noopener noreferrer" class="btn btn-primary ripple">See our reviews on Google <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i></a>
+          </div>
+        </noscript>
+        <div class="reviews-fallback" id="reviewsFallback">
+          <p>Read verified patient experiences directly on Google.</p>
+          <a href="https://www.google.com/maps?cid=1325105483352752683" target="_blank" rel="noopener noreferrer" class="btn btn-primary ripple">See our reviews on Google <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="section">
     <div class="container" style="max-width:840px;">
@@ -676,6 +750,74 @@
 <script src="js/script.js?v=20260806210000" defer></script>
 <script src="js/clinic-gallery.js?v=20260731173000" defer></script>
 <script src="js/animations.js?v=20260731173000" defer></script>
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var widget = document.querySelector('.elfsight-app-bde6f9c1-8cab-46d1-b220-f0543d2dbba8');
+    var skeleton = document.getElementById('reviewsSkeleton');
+    var fallback = document.getElementById('reviewsFallback');
+    if (!widget) return;
+
+    var loaded = false;
+    function hideSkeleton() {
+      if (loaded) return;
+      loaded = true;
+      if (skeleton) {
+        skeleton.classList.add('is-hidden');
+        setTimeout(function() {
+          if (skeleton && skeleton.parentNode) skeleton.parentNode.removeChild(skeleton);
+        }, 450);
+      }
+    }
+
+    function showFallback() {
+      if (loaded) return;
+      if (skeleton) {
+        skeleton.classList.add('is-hidden');
+        setTimeout(function() {
+          if (skeleton && skeleton.parentNode) skeleton.parentNode.removeChild(skeleton);
+        }, 450);
+      }
+      if (fallback) {
+        fallback.style.display = 'block';
+      }
+    }
+
+    if (widget.children.length > 0) {
+      hideSkeleton();
+    } else {
+      var observer = new MutationObserver(function() {
+        if (widget.children.length > 0) {
+          hideSkeleton();
+          observer.disconnect();
+        }
+      });
+      observer.observe(widget, { childList: true, subtree: true });
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              io.disconnect();
+              setTimeout(function() {
+                if (!loaded && widget.children.length === 0) {
+                  showFallback();
+                }
+              }, 8000);
+            }
+          });
+        }, { rootMargin: '300px' });
+        io.observe(widget);
+      } else {
+        setTimeout(function() {
+          if (!loaded && widget.children.length === 0) {
+            showFallback();
+          }
+        }, 8000);
+      }
+    }
+  });
+</script>
 </body>
 </html>
 

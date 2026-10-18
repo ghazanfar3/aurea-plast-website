@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    REBUILT HERO LAYOUT
    ========================================================================== */
 .hero {
@@ -593,6 +593,139 @@
     min-height: 300px;
   }
 }
+
+/* ==========================================================================
+   Google Reviews Section (Elfsight)
+   ========================================================================== */
+.google-reviews-section {
+  background: var(--ivory-shade);
+  padding: clamp(60px, 8vw, 110px) 0;
+  position: relative;
+}
+.google-reviews-section .eyebrow {
+  color: var(--accent);
+}
+.google-reviews-section .eyebrow::before {
+  background: var(--accent);
+}
+.google-reviews-subtitle {
+  color: #555;
+  margin-top: 14px;
+  max-width: 52ch;
+  margin-inline: auto;
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.6;
+}
+.reviews-widget-wrap {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  min-height: 320px;
+  position: relative;
+  width: 100%;
+}
+.reviews-skeleton {
+  width: 100%;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.reviews-skeleton.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.reviews-skeleton__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+.reviews-skeleton__badge {
+  width: 140px;
+  height: 36px;
+  border-radius: 20px;
+  background: rgba(5, 28, 48, 0.06);
+  animation: reviewsPulse 1.6s ease-in-out infinite;
+}
+.reviews-skeleton__stars {
+  width: 110px;
+  height: 18px;
+  border-radius: 4px;
+  background: rgba(5, 28, 48, 0.06);
+  animation: reviewsPulse 1.6s ease-in-out infinite;
+}
+.reviews-skeleton__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.reviews-skeleton__card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(5, 28, 48, 0.04);
+  border: 1px solid rgba(5, 28, 48, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.reviews-skeleton__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.reviews-skeleton__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(5, 28, 48, 0.07);
+  flex-shrink: 0;
+  animation: reviewsPulse 1.6s ease-in-out infinite;
+}
+.reviews-skeleton__meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.reviews-skeleton__bar {
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(5, 28, 48, 0.07);
+  animation: reviewsPulse 1.6s ease-in-out infinite;
+}
+@keyframes reviewsPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+}
+@media (max-width: 900px) {
+  .reviews-skeleton__cards {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reviews-skeleton__badge,
+  .reviews-skeleton__stars,
+  .reviews-skeleton__avatar,
+  .reviews-skeleton__bar {
+    animation: none;
+  }
+}
+.reviews-fallback {
+  display: none;
+  text-align: center;
+  padding: 30px 16px;
+}
+.reviews-fallback p {
+  color: #555;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+}
+
 
 
 
