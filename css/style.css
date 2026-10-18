@@ -694,7 +694,6 @@ p.hero__lead{
 @media(max-width:640px){ .grid-2,.grid-3,.grid-4{ grid-template-columns:1fr; } }
 
 /* Doctor card */
-/* Doctor card */
 .doctor-card{ position:relative; }
 .doctor-card__media{
   aspect-ratio: 4 / 5;
@@ -704,148 +703,132 @@ p.hero__lead{
   border-radius: var(--radius-m) var(--radius-m) 0 0;
   width: 100%;
 }
-.doctor-card__poster-btn{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  z-index: 1;
-}
-.doctor-card__poster-btn:focus-visible{
-  outline: 3px solid var(--accent);
-  outline-offset: -3px;
-}
-.doctor-card__poster-img{
+.doctor-card__img{
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 32%;
+  object-position: 50% 20%;
   filter: brightness(1.02) contrast(1.04) saturate(.96);
   transition: filter 0.35s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.doctor-card__poster-btn:hover .doctor-card__poster-img,
-.doctor-card__poster-btn:focus-visible .doctor-card__poster-img{
-  filter: brightness(1.08) contrast(1.05) saturate(1.02);
-  transform: scale(1.03);
+.doctor-card:hover .doctor-card__img{
+  filter: brightness(1.06) contrast(1.04) saturate(1);
+  transform: scale(1.02);
 }
-.doctor-card__play-wrap{
+/* Subtle dark gradient at bottom 35% only - leaves faces in upper 65% completely unobstructed */
+.doctor-card__gradient{
   position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(8, 20, 40, 0.62) 0%, rgba(8, 20, 40, 0) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+/* Compact pill-shaped play button anchored to bottom-left */
+.doctor-card__play-btn{
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
-  pointer-events: none;
-}
-.doctor-card__play-circle{
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
+  min-height: 48px;
+  padding: 5px 18px 5px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
   -webkit-backdrop-filter: blur(8px);
-  color: var(--primary);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 24px rgba(5, 28, 48, 0.25);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  text-decoration: none;
+}
+.doctor-card__play-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(5, 28, 48, 0.35);
+  background: #ffffff;
+}
+.doctor-card__play-btn:focus-visible{
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+.doctor-card__play-icon{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 30px rgba(5, 28, 48, 0.35);
-  position: relative;
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.25s ease;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
-.doctor-card__play-circle i{
-  margin-left: 4px;
-  color: var(--primary);
-  font-size: 1.35rem;
+.doctor-card__play-icon i{
+  margin-left: 2px;
 }
-.doctor-card__play-circle::before{
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid var(--accent);
-  opacity: 0.8;
-  animation: playPulse 2.4s cubic-bezier(0.24, 0, 0.38, 1) infinite;
-  pointer-events: none;
+.doctor-card__play-btn:hover .doctor-card__play-icon{
+  background: var(--accent);
+  transform: scale(1.05);
 }
-@keyframes playPulse{
-  0%{ transform: scale(0.95); opacity: 0.8; }
-  50%{ transform: scale(1.22); opacity: 0.3; }
-  100%{ transform: scale(1.38); opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce){
-  .doctor-card__play-circle::before{
-    animation: none;
-    opacity: 0.5;
-    transform: none;
-  }
-}
-.doctor-card__poster-btn:hover .doctor-card__play-circle,
-.doctor-card__poster-btn:focus-visible .doctor-card__play-circle{
-  transform: scale(1.08);
-  background: #ffffff;
-}
-.doctor-card__play-label{
+.doctor-card__play-text{
   font-family: var(--font-heading);
   font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 600;
-  color: #ffffff;
-  text-shadow: 0 2px 8px rgba(5, 28, 48, 0.85);
-  transition: transform 0.25s ease;
+  color: var(--primary);
+  white-space: nowrap;
+  line-height: 1;
 }
-.doctor-card__poster-btn:hover .doctor-card__play-label{
-  transform: translateY(-2px);
-}
+/* YouTube iframe inside card */
 .doctor-card__iframe{
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
-  z-index: 3;
+  z-index: 10;
   background: #000000;
 }
+/* Close video button */
 .doctor-card__close-video{
   position: absolute;
   top: 12px;
   right: 12px;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: rgba(5, 28, 48, 0.75);
+  background: rgba(5, 28, 48, 0.85);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 4;
-  font-size: 0.9rem;
+  z-index: 11;
+  font-size: 0.95rem;
   transition: all 0.2s ease;
 }
 .doctor-card__close-video:hover{
   background: var(--accent);
   color: #ffffff;
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 .doctor-card__yt-fallback{
   position: absolute;
   bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(5, 28, 48, 0.85);
+  left: 16px;
+  background: rgba(5, 28, 48, 0.9);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #ffffff;
   padding: 8px 16px;
@@ -855,7 +838,7 @@ p.hero__lead{
   text-transform: uppercase;
   font-family: var(--font-heading);
   border: 1px solid rgba(var(--accent-rgb), 0.5);
-  z-index: 3;
+  z-index: 10;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -865,15 +848,6 @@ p.hero__lead{
 .doctor-card__yt-fallback:hover{
   background: var(--accent);
   color: #ffffff;
-}
-@media (max-width: 1024px){
-  .doctor-card__play-circle{
-    width: 56px;
-    height: 56px;
-  }
-  .doctor-card__play-circle i{
-    font-size: 1.1rem;
-  }
 }
 @media (max-width: 640px){
   .doctor-card__media{
