@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    AUREA PLAST — Core Design System
    Signature element: "The Suture Line" — a fine gold thread that stitches
    through section transitions and the patient journey, echoing the
@@ -1174,9 +1174,10 @@ p.hero__lead{
 .footer-links a{ font-size:.9rem; opacity:.82; }
 .footer-links a:hover{ opacity:1; color:var(--accent); }
 .footer-brand p{ font-size:.9rem; opacity:.72; margin-top:16px; max-width:34ch; }
-.footer-social{ display:flex; gap:12px; margin-top:22px; }
-.footer-social a{ width:36px; height:36px; border-radius:50%; border:1px solid var(--hairline-on-dark); display:flex; align-items:center; justify-content:center; font-size:.85rem; transition:all var(--dur-s) var(--ease); }
-.footer-social a:hover{ background:var(--accent); color:var(--dark); border-color:var(--accent); }
+.footer-social{ display:flex; align-items:center; gap:clamp(10px, 2.5vw, 14px); margin-top:22px; flex-wrap:nowrap; }
+.footer-social a{ width:40px; height:40px; min-width:40px; min-height:40px; border-radius:50%; border:1px solid var(--hairline-on-dark); display:flex; align-items:center; justify-content:center; font-size:.9rem; transition:all var(--dur-s) var(--ease); }
+.footer-social a:hover{ background:var(--accent); color:var(--dark); border-color:var(--accent); transform:translateY(-2px); }
+.footer-social a:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 .newsletter-form{ display:flex; margin-top:6px; border-bottom:1px solid var(--hairline-on-dark); padding-bottom:10px; }
 .newsletter-form input{ flex:1; background:none; border:none; color:var(--ivory); font-family:var(--font-body); font-size:.9rem; }
 .newsletter-form input::placeholder{ color:rgba(248,246,242,.45); }
