@@ -231,9 +231,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  menuToggle && menuToggle.addEventListener('click', () => mobileMenu.classList.add('is-open'));
-  closeMobile && closeMobile.addEventListener('click', () => mobileMenu.classList.remove('is-open'));
-  mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('is-open')));
+  const openMobileMenu = () => {
+    mobileMenu.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeMobileMenu = () => {
+    mobileMenu.classList.remove('is-open');
+    document.body.style.overflow = '';
+  };
+  menuToggle && menuToggle.addEventListener('click', openMobileMenu);
+  closeMobile && closeMobile.addEventListener('click', closeMobileMenu);
+  mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
 
   // Highlight active mega-heading-btn based on URL path
   const currentNavPath = window.location.pathname.replace(/\/$/, '') || '/';
