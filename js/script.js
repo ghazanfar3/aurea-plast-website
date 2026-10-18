@@ -235,6 +235,15 @@ document.addEventListener('DOMContentLoaded', () => {
   closeMobile && closeMobile.addEventListener('click', () => mobileMenu.classList.remove('is-open'));
   mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('is-open')));
 
+  // Highlight active mega-heading-btn based on URL path
+  const currentNavPath = window.location.pathname.replace(/\/$/, '') || '/';
+  document.querySelectorAll('.mega-heading-btn').forEach(btn => {
+    const btnHref = btn.getAttribute('href')?.replace(/\/$/, '');
+    if (btnHref && (currentNavPath === btnHref || currentNavPath.endsWith(btnHref))) {
+      btn.classList.add('active');
+    }
+  });
+
   /* ------------------------ Scroll progress bar ------------------------ */
   const progressBar = document.querySelector('.scroll-progress__bar');
   const updateProgress = () => {
