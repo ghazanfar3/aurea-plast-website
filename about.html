@@ -32,8 +32,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css"></noscript>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-<link rel="stylesheet" href="css/style.css?v=202610190100">
+<link rel="stylesheet" href="css/style.css?v=202610200135">
 <link rel="stylesheet" href="css/components.css?v=20260731173000">
 <link rel="stylesheet" href="css/clinic.css?v=202610190015">
 <script type="application/ld+json">
@@ -406,16 +405,77 @@
     </div>
   </section>
 
-  <section class="section">
+  <!-- GOOGLE REVIEWS -->
+  <section id="google-reviews" class="section shade google-reviews-section" aria-labelledby="google-reviews-title">
     <div class="container">
-      <div class="section-head center"><span class="eyebrow" style="justify-content:center;">Patient Voices</span><h2>What Our Patients Say</h2></div>
-      <div class="swiper testi-swiper"><div class="swiper-wrapper">
-        <div class="swiper-slide testi-slide"><div class="testi-card"><span class="quote-mark">"</span><p>The care and honesty throughout my consultation gave me total confidence in my decision.</p><div class="testi-foot"><div class="testi-avatar"><i class="fa-solid fa-user"></i></div><div><div class="testi-name">Rhinoplasty Patient</div><div class="testi-role">Lahore</div></div></div></div></div>
-        <div class="swiper-slide testi-slide"><div class="testi-card"><span class="quote-mark">"</span><p>Dr. Nasir Rafiq's attention to detail on my filler treatment was exactly the natural result I hoped for.</p><div class="testi-foot"><div class="testi-avatar"><i class="fa-solid fa-user"></i></div><div><div class="testi-name">Aesthetic Patient</div><div class="testi-role">Islamabad</div></div></div></div></div>
-        <div class="swiper-slide testi-slide"><div class="testi-card"><span class="quote-mark">"</span><p>From my first call to my final follow-up, every step felt considered and genuinely caring.</p><div class="testi-foot"><div class="testi-avatar"><i class="fa-solid fa-user"></i></div><div><div class="testi-name">Tummy Tuck Patient</div><div class="testi-role">Lahore</div></div></div></div></div>
-        <div class="swiper-slide testi-slide"><div class="testi-card"><span class="quote-mark">"</span><p>My results look completely natural. I finally feel comfortable in photos again.</p><div class="testi-foot"><div class="testi-avatar"><i class="fa-solid fa-user"></i></div><div><div class="testi-name">Facelift Patient</div><div class="testi-role">Karachi</div></div></div></div></div>
-      </div></div>
-      <div class="testi-pagination" style="display:flex; justify-content:center; margin-top:30px; gap:8px;"></div>
+      <div class="section-head center gsap-rise">
+        <span class="eyebrow" style="justify-content:center;">GOOGLE REVIEWS</span>
+        <h2 id="google-reviews-title">Rated by Our Patients on Google</h2>
+        <p class="google-reviews-subtitle">Real reviews from real patients, shared directly from Google.</p>
+      </div>
+
+      <div class="reviews-widget-wrap gsap-rise">
+        <!-- Skeleton Placeholder -->
+        <div class="reviews-skeleton" id="reviewsSkeleton" aria-hidden="true">
+          <div class="reviews-skeleton__header">
+            <div class="reviews-skeleton__badge"></div>
+            <div class="reviews-skeleton__stars"></div>
+          </div>
+          <div class="reviews-skeleton__cards">
+            <div class="reviews-skeleton__card">
+              <div class="reviews-skeleton__user">
+                <div class="reviews-skeleton__avatar"></div>
+                <div class="reviews-skeleton__meta">
+                  <div class="reviews-skeleton__bar" style="width:60%;"></div>
+                  <div class="reviews-skeleton__bar" style="width:40%;"></div>
+                </div>
+              </div>
+              <div class="reviews-skeleton__bar" style="width:100%; margin-top:16px;"></div>
+              <div class="reviews-skeleton__bar" style="width:90%;"></div>
+              <div class="reviews-skeleton__bar" style="width:75%;"></div>
+            </div>
+            <div class="reviews-skeleton__card">
+              <div class="reviews-skeleton__user">
+                <div class="reviews-skeleton__avatar"></div>
+                <div class="reviews-skeleton__meta">
+                  <div class="reviews-skeleton__bar" style="width:55%;"></div>
+                  <div class="reviews-skeleton__bar" style="width:35%;"></div>
+                </div>
+              </div>
+              <div class="reviews-skeleton__bar" style="width:100%; margin-top:16px;"></div>
+              <div class="reviews-skeleton__bar" style="width:85%;"></div>
+              <div class="reviews-skeleton__bar" style="width:70%;"></div>
+            </div>
+            <div class="reviews-skeleton__card">
+              <div class="reviews-skeleton__user">
+                <div class="reviews-skeleton__avatar"></div>
+                <div class="reviews-skeleton__meta">
+                  <div class="reviews-skeleton__bar" style="width:65%;"></div>
+                  <div class="reviews-skeleton__bar" style="width:45%;"></div>
+                </div>
+              </div>
+              <div class="reviews-skeleton__bar" style="width:100%; margin-top:16px;"></div>
+              <div class="reviews-skeleton__bar" style="width:92%;"></div>
+              <div class="reviews-skeleton__bar" style="width:60%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Elfsight Google Reviews Embed -->
+        <div class="elfsight-app-bde6f9c1-8cab-46d1-b220-f0543d2dbba8" data-elfsight-app-lazy></div>
+
+        <!-- Fallback if script fails or is blocked -->
+        <noscript>
+          <div class="reviews-fallback" style="display:block;">
+            <p>Read verified patient experiences directly on Google.</p>
+            <a href="https://www.google.com/maps?cid=1325105483352752683" target="_blank" rel="noopener noreferrer" class="btn btn-primary ripple">See our reviews on Google <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i></a>
+          </div>
+        </noscript>
+        <div class="reviews-fallback" id="reviewsFallback">
+          <p>Read verified patient experiences directly on Google.</p>
+          <a href="https://www.google.com/maps?cid=1325105483352752683" target="_blank" rel="noopener noreferrer" class="btn btn-primary ripple">See our reviews on Google <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i></a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -501,11 +561,78 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <script src="js/data.js?v=20260731173000" defer></script>
-<script src="js/script.js?v=202610190030" defer></script>
+<script src="js/script.js?v=202610200135" defer></script>
 <script src="js/clinic-gallery.js?v=20260731173000" defer></script>
 <script src="js/animations.js?v=20260731173000" defer></script>
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var widget = document.querySelector('.elfsight-app-bde6f9c1-8cab-46d1-b220-f0543d2dbba8');
+    var skeleton = document.getElementById('reviewsSkeleton');
+    var fallback = document.getElementById('reviewsFallback');
+    if (!widget) return;
+
+    var loaded = false;
+    function hideSkeleton() {
+      if (loaded) return;
+      loaded = true;
+      if (skeleton) {
+        skeleton.classList.add('is-hidden');
+        setTimeout(function() {
+          if (skeleton && skeleton.parentNode) skeleton.parentNode.removeChild(skeleton);
+        }, 450);
+      }
+    }
+
+    function showFallback() {
+      if (loaded) return;
+      if (skeleton) {
+        skeleton.classList.add('is-hidden');
+        setTimeout(function() {
+          if (skeleton && skeleton.parentNode) skeleton.parentNode.removeChild(skeleton);
+        }, 450);
+      }
+      if (fallback) {
+        fallback.style.display = 'block';
+      }
+    }
+
+    if (widget.children.length > 0) {
+      hideSkeleton();
+    } else {
+      var observer = new MutationObserver(function() {
+        if (widget.children.length > 0) {
+          hideSkeleton();
+          observer.disconnect();
+        }
+      });
+      observer.observe(widget, { childList: true, subtree: true });
+
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              io.disconnect();
+              setTimeout(function() {
+                if (!loaded && widget.children.length === 0) {
+                  showFallback();
+                }
+              }, 8000);
+            }
+          });
+        }, { rootMargin: '300px' });
+        io.observe(widget);
+      } else {
+        setTimeout(function() {
+          if (!loaded && widget.children.length === 0) {
+            showFallback();
+          }
+        }, 8000);
+      }
+    }
+  });
+</script>
 </body>
 </html>
 

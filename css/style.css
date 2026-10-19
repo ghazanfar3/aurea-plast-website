@@ -1125,16 +1125,6 @@ p.hero__lead{
 .ba-meta{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
 .ba-meta span{ font-size:.72rem; background:var(--ivory); border:1px solid var(--hairline); padding:5px 10px; border-radius:999px; color:#5a5751; }
 
-/* Testimonials */
-.testi-slide{ padding:8px; }
-.testi-card{ background:var(--white); border-radius:var(--radius-m); padding:38px 34px; box-shadow:var(--shadow-soft); height:100%; }
-.testi-card .quote-mark{ font-family:var(--font-display); font-size:3rem; color:var(--accent); line-height:1; }
-.testi-card p{ margin-top:10px; color:#4a4844; }
-.testi-foot{ display:flex; align-items:center; gap:14px; margin-top:24px; }
-.testi-avatar{ width:46px; height:46px; border-radius:50%; background:linear-gradient(160deg,#e7ded0,#cbb98c); display:flex; align-items:center; justify-content:center; color:rgba(31,31,31,.4); }
-.testi-name{ font-family:var(--font-heading); font-weight:600; font-size:.92rem; }
-.testi-role{ font-size:.78rem; color:#8a877f; }
-
 /* Stats */
 .stat-band{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
 @media(max-width:640px){ .stat-band{ grid-template-columns:1fr; } }

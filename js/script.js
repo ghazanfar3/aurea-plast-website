@@ -459,21 +459,6 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ------------------------------ Newsletter ------------------------------ */
   /* Handled by js/forms.js */
 
-  /* ------------------------------ Testimonials Swiper ------------------------------ */
-  if (window.Swiper && document.querySelector('.testi-swiper')) {
-    new Swiper('.testi-swiper', {
-      slidesPerView: 1.05,
-      spaceBetween: 24,
-      loop: true,
-      autoplay: { delay: 5000, disableOnInteraction: false },
-      breakpoints: {
-        720: { slidesPerView: 2, spaceBetween: 24 },
-        1080: { slidesPerView: 3, spaceBetween: 28 }
-      },
-      pagination: { el: '.testi-pagination', clickable: true },
-    });
-  }
-
   /* ------------------------------ Contact / generic form validation ------------------------------ */
   document.querySelectorAll('form[data-validate]').forEach(form => {
     form.addEventListener('submit', (e) => {
