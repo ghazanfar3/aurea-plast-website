@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css"></noscript>
-<link rel="stylesheet" href="css/style.css?v=202610200135">
+<link rel="stylesheet" href="css/style.css?v=202610200155">
 <link rel="stylesheet" href="css/components.css?v=20260731173000">
 <link rel="stylesheet" href="css/clinic.css?v=202610190015">
 <script type="application/ld+json">
@@ -402,33 +402,72 @@
     </div>
   </section>
 
-  <!-- FEATURED PLASTIC SURGERY -->
-  <section class="section">
+  <!-- PROCEDURES -->
+  <section id="procedures" class="section procedures-section" aria-labelledby="procedures-title">
     <div class="container">
-      <div class="section-head section-head--row">
-        <div>
-          <span class="eyebrow">Surgical Care</span>
-          <h2>Featured Plastic Surgery</h2>
-        </div>
-        <a href="/plastic-surgery" class="btn-ghost">View All <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      <div class="section-head center gsap-rise">
+        <span class="eyebrow" style="justify-content:center;">OUR PROCEDURES</span>
+        <h2 id="procedures-title">Featured Procedures</h2>
+        <p class="procedures-subtitle">Surgical and non-surgical care, planned around your goals.</p>
       </div>
-      <div class="grid grid-4" id="featPlasticGrid"></div>
+
+      <!-- Tab Switcher -->
+      <div class="procedures-tabs-wrap gsap-rise">
+        <div class="procedures-tablist" role="tablist" aria-label="Procedure Categories">
+          <button type="button" 
+                  role="tab" 
+                  id="tab-plastic" 
+                  class="proc-tab-btn is-active" 
+                  aria-selected="true" 
+                  aria-controls="panel-plastic" 
+                  tabindex="0">
+            Plastic Surgery
+          </button>
+          <button type="button" 
+                  role="tab" 
+                  id="tab-aesthetic" 
+                  class="proc-tab-btn" 
+                  aria-selected="false" 
+                  aria-controls="panel-aesthetic" 
+                  tabindex="-1">
+            Aesthetic Procedures
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Panels Container -->
+      <div class="procedures-panels-wrap">
+        <!-- Panel 1: Plastic Surgery -->
+        <div id="panel-plastic" 
+             class="proc-tabpanel is-active" 
+             role="tabpanel" 
+             aria-labelledby="tab-plastic" 
+             tabindex="0">
+          <div class="grid grid-4" id="featPlasticGrid"></div>
+        </div>
+
+        <!-- Panel 2: Aesthetic Procedures -->
+        <div id="panel-aesthetic" 
+             class="proc-tabpanel" 
+             role="tabpanel" 
+             aria-labelledby="tab-aesthetic" 
+             tabindex="0" 
+             hidden>
+          <div class="grid grid-4" id="featAestheticGrid"></div>
+        </div>
+      </div>
+
+      <!-- Single Dynamic View All Action Button -->
+      <div class="procedures-action gsap-rise">
+        <a href="/plastic-surgery" id="proceduresViewAll" class="btn btn-primary ripple">
+          <span class="btn-text">View All Plastic Surgery</span>
+          <i class="fa-solid fa-arrow-right" aria-hidden="true" style="margin-left:8px;"></i>
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- FEATURED AESTHETIC -->
-  <section class="section shade">
-    <div class="container">
-      <div class="section-head section-head--row">
-        <div>
-          <span class="eyebrow">Non-Surgical Care</span>
-          <h2>Featured Aesthetic Procedures</h2>
-        </div>
-        <a href="/aesthetic-procedures" class="btn-ghost">View All <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
-      </div>
-      <div class="grid grid-4" id="featAestheticGrid"></div>
-    </div>
-  </section>
+  <div class="suture-divider"><svg viewBox="0 0 120 16"><path d="M2 8 Q 20 -1, 38 8 T 74 8 T 110 8"/><circle cx="110" cy="8" r="3"/></svg></div>
 
   <!-- PATIENT JOURNEY -->
   <section class="section">
@@ -762,7 +801,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
 <script src="js/data.js?v=20260806210000" defer></script>
-<script src="js/script.js?v=202610200135" defer></script>
+<script src="js/script.js?v=202610200155" defer></script>
 <script src="js/clinic-gallery.js?v=20260731173000" defer></script>
 <script src="js/animations.js?v=20260731173000" defer></script>
 <script src="https://elfsightcdn.com/platform.js" async></script>

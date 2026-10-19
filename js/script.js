@@ -616,6 +616,133 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>`).join('');
   }
 
+  /* ------------------------------ Procedures Tab Switcher ------------------------------ */
+  const procTablist = document.querySelector('.procedures-tablist');
+  if (procTablist) {
+    const tabs = Array.from(procTablist.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll('.proc-tabpanel'));
+    const viewAllBtn = document.getElementById('proceduresViewAll');
+    const viewAllText = viewAllBtn ? viewAllBtn.querySelector('.btn-text') : null;
+
+    const tabConfig = {
+      'tab-plastic': {
+        panelId: 'panel-plastic',
+        url: '/plastic-surgery',
+        label: 'View All Plastic Surgery'
+      },
+      'tab-aesthetic': {
+        panelId: 'panel-aesthetic',
+        url: '/aesthetic-procedures',
+        label: 'View All Aesthetic Procedures'
+      }
+    };
+
+    function activateTab(tabToActivate, shouldFocus) {
+      if (!tabToActivate) return;
+      const config = tabConfig[tabToActivate.id];
+      if (!config) return;
+
+      const activeTab = procTablist.querySelector('[role="tab"][aria-selected="true"]');
+      if (activeTab === tabToActivate) return;
+
+      const currentPanel = panels.find(p => !p.hidden);
+      const targetPanel = document.getElementById(config.panelId);
+
+      // Update tab buttons
+      tabs.forEach(t => {
+        const isCurrent = t === tabToActivate;
+        t.classList.toggle('is-active', isCurrent);
+        t.setAttribute('aria-selected', isCurrent ? 'true' : 'false');
+        t.setAttribute('tabindex', isCurrent ? '0' : '-1');
+      });
+
+      if (shouldFocus) {
+        tabToActivate.focus();
+      }
+
+      // Update View All button
+      if (viewAllBtn) {
+        viewAllBtn.href = config.url;
+        if (viewAllText) {
+          viewAllText.textContent = config.label;
+        } else {
+          viewAllBtn.childNodes[0].textContent = config.label + ' ';
+        }
+      }
+
+      // Switch panels with smooth transition
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced || !currentPanel || !targetPanel) {
+        panels.forEach(p => {
+          const isTarget = p === targetPanel;
+          p.hidden = !isTarget;
+          p.classList.toggle('is-active', isTarget);
+        });
+      } else {
+        currentPanel.classList.add('is-animating-out');
+        setTimeout(() => {
+          currentPanel.hidden = true;
+          currentPanel.classList.remove('is-active', 'is-animating-out');
+
+          targetPanel.hidden = false;
+          targetPanel.classList.add('is-animating-in');
+          void targetPanel.offsetHeight; // Force reflow
+          targetPanel.classList.remove('is-animating-in');
+          targetPanel.classList.add('is-active');
+        }, 150);
+      }
+    }
+
+    // Keyboard navigation
+    procTablist.addEventListener('keydown', (e) => {
+      const currentTab = document.activeElement;
+      const index = tabs.indexOf(currentTab);
+      if (index === -1) return;
+
+      let nextIndex = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        nextIndex = (index + 1) % tabs.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        nextIndex = (index - 1 + tabs.length) % tabs.length;
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        nextIndex = 0;
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        nextIndex = tabs.length - 1;
+      }
+
+      if (nextIndex !== null) {
+        activateTab(tabs[nextIndex], true);
+      }
+    });
+
+    // Click navigation
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        activateTab(tab, false);
+      });
+    });
+
+    // Deep link support
+    function checkDeepLink() {
+      const hash = (window.location.hash || '').toLowerCase();
+      const search = (window.location.search || '').toLowerCase();
+      if (hash.includes('aesthetic') || search.includes('tab=aesthetic')) {
+        const aestheticTab = document.getElementById('tab-aesthetic');
+        if (aestheticTab) activateTab(aestheticTab, false);
+      } else if (hash.includes('plastic') || search.includes('tab=plastic')) {
+        const plasticTab = document.getElementById('tab-plastic');
+        if (plasticTab) activateTab(plasticTab, false);
+      }
+    }
+
+    checkDeepLink();
+    window.addEventListener('hashchange', checkDeepLink);
+  }
+
   /* ============================ Success Stories ============================ */
   const storyGrid = document.querySelector('#storyGrid');
   if (storyGrid) {
