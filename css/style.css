@@ -592,8 +592,8 @@ p.lead{
 .hero__bg{
   position:absolute; inset:0;
   background:
-    radial-gradient(ellipse at 75% 20%, rgba(var(--accent-rgb),0.22), transparent 60%),
-    linear-gradient(180deg, #171716 0%, #1F1F1F 55%, #262523 100%);
+    radial-gradient(ellipse at 75% 20%, rgba(var(--accent-rgb),0.18), transparent 60%),
+    linear-gradient(180deg, #051829 0%, #051C30 55%, #031220 100%);
 }
 .hero__grain{ position:absolute; inset:0; opacity:.05; mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
