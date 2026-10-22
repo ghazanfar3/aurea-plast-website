@@ -20,20 +20,39 @@ function baMediaHtml(story) {
     </div>`;
 }
 
-/** Wire slider behaviour for every .ba-media inside root. */
+/** Wire slider behaviour for every .ba-media inside root without layout thrashing. */
 function initBaSliders(root = document) {
-  root.querySelectorAll('.ba-media').forEach(media => {
+  const sliders = root.querySelectorAll('.ba-media');
+  if (!sliders.length) return;
+
+  const entries = [];
+  sliders.forEach(media => {
     if (media.dataset.baReady) return;
     media.dataset.baReady = '1';
     const after = media.querySelector('.after');
     const handle = media.querySelector('.ba-handle');
     const range = media.querySelector('.ba-slider');
     const afterImg = media.querySelector('.after .ba-img');
-    const syncAfterImg = () => {
-      if (afterImg) afterImg.style.width = media.offsetWidth + 'px';
-    };
-    syncAfterImg();
-    window.addEventListener('resize', syncAfterImg, { passive: true });
+    entries.push({ media, after, handle, range, afterImg });
+  });
+
+  if (!entries.length) return;
+
+  const syncAll = () => {
+    // 1. Batch read phase: collect all element widths in one pass
+    const widths = entries.map(e => e.media.offsetWidth);
+    // 2. Batch write phase: apply styles in a single rAF frame
+    window.requestAnimationFrame(() => {
+      entries.forEach((e, idx) => {
+        if (e.afterImg && widths[idx]) e.afterImg.style.width = widths[idx] + 'px';
+      });
+    });
+  };
+
+  syncAll();
+  window.addEventListener('resize', syncAll, { passive: true });
+
+  entries.forEach(({ media, after, handle, range }) => {
     const set = (pct) => {
       pct = Math.max(0, Math.min(100, pct));
       after.style.width = pct + '%';

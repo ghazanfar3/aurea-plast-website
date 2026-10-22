@@ -144,63 +144,78 @@
 
 @media (max-width: 767px) {
   .hero {
+    position: relative;
+    isolation: isolate;
     height: auto;
     min-height: 100svh;
     align-items: stretch;
     padding-top: 0;
     padding-bottom: clamp(32px, 5vh, 56px);
-    background: var(--dark, #051C30);
+    background: #051C30;
+    background-color: #051C30;
+    overflow: hidden;
+  }
+  .hero__bg {
+    display: none !important;
+  }
+  .hero__grain {
+    display: none !important;
   }
   .hero__frame {
-    display: none;
+    display: none !important;
   }
   .hero .container.hero__content {
     flex-direction: column;
     justify-content: flex-end;
     position: relative;
     z-index: 2;
+    background: transparent;
   }
   .hero__media {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
     width: 100%;
-    height: 100%;
+    height: clamp(480px, 66svh, 580px);
     overflow: hidden;
     pointer-events: none;
     z-index: 0;
+    background: transparent;
   }
   .hero__media picture {
     display: block;
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
-    height: clamp(380px, 56svh, 520px);
+    height: 100%;
   }
   .hero__media-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 55% 12%;
+    object-position: 50% 10%;
+    display: block;
     -webkit-mask-image: linear-gradient(
-      180deg,
+      to bottom,
       #000 0%,
-      #000 32%,
-      rgba(0, 0, 0, 0.88) 48%,
-      rgba(0, 0, 0, 0.5) 66%,
-      rgba(0, 0, 0, 0.15) 84%,
+      #000 28%,
+      rgba(0, 0, 0, 0.96) 42%,
+      rgba(0, 0, 0, 0.72) 58%,
+      rgba(0, 0, 0, 0.38) 74%,
+      rgba(0, 0, 0, 0.10) 88%,
+      transparent 98%,
       transparent 100%
     );
     mask-image: linear-gradient(
-      180deg,
+      to bottom,
       #000 0%,
-      #000 32%,
-      rgba(0, 0, 0, 0.88) 48%,
-      rgba(0, 0, 0, 0.5) 66%,
-      rgba(0, 0, 0, 0.15) 84%,
+      #000 28%,
+      rgba(0, 0, 0, 0.96) 42%,
+      rgba(0, 0, 0, 0.72) 58%,
+      rgba(0, 0, 0, 0.38) 74%,
+      rgba(0, 0, 0, 0.10) 88%,
+      transparent 98%,
       transparent 100%
     );
   }
@@ -208,27 +223,26 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background:
-      radial-gradient(60% 36% at 50% 18%, rgba(214, 185, 125, 0.14), transparent 70%),
-      linear-gradient(180deg, rgba(5, 28, 48, 0.75) 0%, rgba(5, 28, 48, 0.25) 12%, transparent 22%),
-      linear-gradient(90deg, rgba(5, 28, 48, 0.45) 0%, transparent 10%, transparent 90%, rgba(5, 28, 48, 0.45) 100%),
-      linear-gradient(180deg,
-        transparent 0px,
-        transparent clamp(130px, 20svh, 180px),
-        rgba(5, 28, 48, 0.22) clamp(170px, 28svh, 230px),
-        rgba(5, 28, 48, 0.65) clamp(230px, 36svh, 300px),
-        rgba(5, 28, 48, 0.90) clamp(290px, 44svh, 370px),
-        rgba(5, 28, 48, 0.98) clamp(350px, 50svh, 430px),
-        #051c30 clamp(390px, 55svh, 480px),
-        #051c30 100%
-      );
+    background: linear-gradient(
+      to bottom,
+      rgba(5, 28, 48, 0.40) 0%,
+      rgba(5, 28, 48, 0.05) 16%,
+      rgba(5, 28, 48, 0.00) 28%,
+      rgba(5, 28, 48, 0.16) 40%,
+      rgba(5, 28, 48, 0.48) 54%,
+      rgba(5, 28, 48, 0.80) 68%,
+      rgba(5, 28, 48, 0.96) 84%,
+      #051c30 94%,
+      #051c30 100%
+    );
   }
   .hero__content > div:first-child {
     max-width: 100%;
-    margin-top: clamp(240px, 38svh, 350px);
+    margin-top: clamp(260px, 36svh, 340px);
     align-self: flex-start;
     position: relative;
     z-index: 2;
+    background: transparent;
   }
   .hero__side {
     position: relative !important;
@@ -250,14 +264,14 @@
 }
 
 @media (max-width: 360px) {
-  .hero__media picture {
-    height: 380px;
+  .hero__media {
+    height: 460px;
   }
   .hero__media-img {
-    object-position: 54% 8%;
+    object-position: 50% 8%;
   }
   .hero__content > div:first-child {
-    margin-top: 220px;
+    margin-top: 240px;
   }
 }
 

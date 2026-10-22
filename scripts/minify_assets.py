@@ -89,19 +89,16 @@ def main():
     css_dir = os.path.join(root, 'css')
     js_dir = os.path.join(root, 'js')
 
-    # Minify CSS files
-    css_files = ['style.css', 'components.css', 'clinic.css']
-    minified_parts = []
-    
-    # Prepend font-display: swap for Font Awesome icons
-    fa_override = (
-        "@font-face{font-family:'Font Awesome 6 Free';font-style:normal;font-weight:900;font-display:swap;src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2') format('woff2');}\n"
-        "@font-face{font-family:'Font Awesome 6 Free';font-style:normal;font-weight:400;font-display:swap;src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-regular-400.woff2') format('woff2');}\n"
-        "@font-face{font-family:'Font Awesome 6 Brands';font-style:normal;font-weight:400;font-display:swap;src:url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2') format('woff2');}\n"
-    )
-    minified_parts.append(fa_override)
+    # Read subset icons
+    icons_path = os.path.join(css_dir, 'icons.min.css')
+    icons_css = ''
+    if os.path.exists(icons_path):
+        with open(icons_path, 'r', encoding='utf-8') as f:
+            icons_css = f.read()
 
-    for cf in css_files:
+    # Minify individual CSS files
+    minified_map = {}
+    for cf in ['style.css', 'components.css', 'clinic.css']:
         path = os.path.join(css_dir, cf)
         if os.path.exists(path):
             with open(path, 'r', encoding='utf-8') as f:
@@ -110,15 +107,24 @@ def main():
             out_path = os.path.join(css_dir, cf.replace('.css', '.min.css'))
             with open(out_path, 'w', encoding='utf-8') as f:
                 f.write(min_content)
-            minified_parts.append(min_content)
+            minified_map[cf] = min_content
             print(f"CSS: {cf} ({len(content)} bytes) -> {os.path.basename(out_path)} ({len(min_content)} bytes)")
 
-    # Write consolidated site.min.css
-    site_bundle = '\n'.join(minified_parts)
+    # Build consolidated site.min.css containing icons + style + clinic
+    # components.min.css remains standalone for appointment & success-stories
+    site_parts = []
+    if icons_css:
+        site_parts.append(icons_css)
+    if 'style.css' in minified_map:
+        site_parts.append(minified_map['style.css'])
+    if 'clinic.css' in minified_map:
+        site_parts.append(minified_map['clinic.css'])
+
+    site_bundle = '\n'.join(site_parts)
     bundle_path = os.path.join(css_dir, 'site.min.css')
     with open(bundle_path, 'w', encoding='utf-8') as f:
         f.write(site_bundle)
-    print(f"Consolidated Bundle: site.min.css ({len(site_bundle)} bytes)")
+    print(f"Consolidated Bundle: site.min.css ({len(site_bundle)} bytes, includes icons + style + clinic)")
 
     # Minify JS files
     js_files = ['script.js', 'animations.js', 'data.js', 'forms.js', 'clinic-gallery.js', 'emailjs-config.js']
