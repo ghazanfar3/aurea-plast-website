@@ -52,18 +52,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------------------------- Preloader ---------------------------- */
   const loader = document.querySelector('.loader');
-  window.addEventListener('load', () => {
-    setTimeout(() => loader && loader.classList.add('is-hidden'), 400);
-  });
-  // Fallback in case load already fired
-  setTimeout(() => loader && loader.classList.add('is-hidden'), 2500);
+  if (loader) {
+    const dismissLoader = () => {
+      loader.classList.add('is-hidden');
+      setTimeout(() => { if (loader.parentNode) loader.remove(); }, 600);
+    };
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(dismissLoader, 60);
+    } else {
+      document.addEventListener('DOMContentLoaded', () => setTimeout(dismissLoader, 60));
+      window.addEventListener('load', dismissLoader);
+      setTimeout(dismissLoader, 1200);
+    }
+  }
 
   /* ---------------------------- Navbar ---------------------------- */
   const navbar = document.querySelector('.navbar');
+  let navTicking = false;
   const onScrollNav = () => {
     if (!navbar) return;
-    if (window.scrollY > 40) navbar.classList.add('is-scrolled');
-    else navbar.classList.remove('is-scrolled');
+    if (!navTicking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 40) navbar.classList.add('is-scrolled');
+        else navbar.classList.remove('is-scrolled');
+        navTicking = false;
+      });
+      navTicking = true;
+    }
   };
   document.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
@@ -372,13 +387,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  /* ------------------- Lazy Video Embeds (Intersection Observer) ------------------- */
+  const lazyVideoFrames = document.querySelectorAll('iframe.lazy-video-frame[data-src]');
+  if (lazyVideoFrames.length) {
+    if ('IntersectionObserver' in window) {
+      const vObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const frame = entry.target;
+            if (frame.dataset.src) {
+              frame.src = frame.dataset.src;
+              frame.removeAttribute('data-src');
+            }
+            obs.unobserve(frame);
+          }
+        });
+      }, { rootMargin: '50px 0px' });
+      lazyVideoFrames.forEach(f => vObserver.observe(f));
+    } else {
+      lazyVideoFrames.forEach(f => {
+        if (f.dataset.src) {
+          f.src = f.dataset.src;
+          f.removeAttribute('data-src');
+        }
+      });
+    }
+  }
+
   /* ------------------------ Scroll progress bar ------------------------ */
   const progressBar = document.querySelector('.scroll-progress__bar');
+  let progressTicking = false;
   const updateProgress = () => {
     if (!progressBar) return;
-    const h = document.documentElement;
-    const scrolled = (h.scrollTop) / ((h.scrollHeight - h.clientHeight) || 1) * 100;
-    progressBar.style.width = scrolled + '%';
+    if (!progressTicking) {
+      window.requestAnimationFrame(() => {
+        const h = document.documentElement;
+        const scrolled = (h.scrollTop) / ((h.scrollHeight - h.clientHeight) || 1) * 100;
+        progressBar.style.width = scrolled + '%';
+        progressTicking = false;
+      });
+      progressTicking = true;
+    }
   };
   document.addEventListener('scroll', updateProgress, { passive: true });
   updateProgress();
@@ -686,9 +735,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           targetPanel.hidden = false;
           targetPanel.classList.add('is-animating-in');
-          void targetPanel.offsetHeight; // Force reflow
-          targetPanel.classList.remove('is-animating-in');
-          targetPanel.classList.add('is-active');
+          requestAnimationFrame(() => {
+            targetPanel.classList.remove('is-animating-in');
+            targetPanel.classList.add('is-active');
+          });
         }, 150);
       }
     }
@@ -751,7 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cats = ['All', 'Plastic Surgery', 'Aesthetic'];
 
     function storyCard(s) {
-      return `<div class="card ba-card reveal">
+      return `<div class="card ba-card">
         ${baMediaHtml(s)}
         <div class="ba-body">
           <span class="ba-tag">${s.cat}</span>
@@ -769,7 +819,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const filtered = SUCCESS_STORIES.filter(s => activeStoryCat === 'All' || s.cat === activeStoryCat);
       storyGrid.innerHTML = filtered.map(storyCard).join('');
       initBaSliders(storyGrid);
-      storyGrid.querySelectorAll('.reveal').forEach(el => requestAnimationFrame(() => el.classList.add('in')));
     }
     if (storyFilters) {
       storyFilters.innerHTML = cats.map(c => `<button class="filter-chip ${c === 'All' ? 'is-active' : ''}" data-cat="${c}">${c}</button>`).join('');

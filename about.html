@@ -27,14 +27,17 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css"></noscript>
-<link rel="stylesheet" href="css/style.css?v=202610200155">
-<link rel="stylesheet" href="css/components.css?v=20260731173000">
-<link rel="stylesheet" href="css/clinic.css?v=202610190015">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"></noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+<link rel="preload" as="style" href="css/site.min.css?v=202610222200">
+<link rel="stylesheet" href="css/site.min.css?v=202610222200">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -205,7 +208,10 @@
   <nav class="navbar on-dark-hero">
     <div class="container">
       <a href="/" class="brand">
-        <img src="assets/images/logo.png" alt="Aurea Plast Aesthetic and Reconstructive Surgery Clinic logo" class="brand-logo" width="160" height="40" decoding="async">
+        <picture>
+          <source type="image/webp" srcset="assets/images/logo-sm.webp 160w, assets/images/logo.webp 240w" sizes="160px">
+          <img src="assets/images/logo.png" alt="Aurea Plast Aesthetic and Reconstructive Surgery Clinic logo" class="brand-logo" width="160" height="40" decoding="async">
+        </picture>
       </a>
       <ul class="nav-links">
         <li><a href="/" class="nav-link">Home</a></li>
@@ -271,13 +277,22 @@
         </div>
         <div class="gsap-rise" style="display:flex; justify-content:center;">
           <iframe 
-            src="https://www.youtube.com/embed/XwWY2YXG__k?autoplay=1&mute=1&loop=1&playlist=XwWY2YXG__k&playsinline=1&modestbranding=1&rel=0" 
+            class="lazy-video-frame"
+            data-src="https://www.youtube.com/embed/XwWY2YXG__k?autoplay=1&mute=1&loop=1&playlist=XwWY2YXG__k&playsinline=1&modestbranding=1&rel=0" 
             style="width:100%; max-width:310px; aspect-ratio:9/16; border:none; border-radius:var(--radius-m, 16px); box-shadow: 0 15px 40px rgba(0,0,0,0.12);" 
             allow="autoplay; encrypted-media; picture-in-picture" 
             allowfullscreen 
-            loading="lazy"
             title="Aurea Plast Clinic Story Video">
           </iframe>
+          <noscript>
+            <iframe 
+              src="https://www.youtube.com/embed/XwWY2YXG__k?autoplay=1&mute=1&loop=1&playlist=XwWY2YXG__k&playsinline=1&modestbranding=1&rel=0" 
+              style="width:100%; max-width:310px; aspect-ratio:9/16; border:none; border-radius:var(--radius-m, 16px);" 
+              allow="autoplay; encrypted-media; picture-in-picture" 
+              allowfullscreen 
+              title="Aurea Plast Clinic Story Video">
+            </iframe>
+          </noscript>
         </div>
       </div>
     </div>
@@ -298,7 +313,10 @@
       <div class="grid grid-2" style="max-width:900px; margin:0 auto 60px;">
         <div class="card doctor-card gsap-rise">
           <div class="doctor-card__media" data-video-id="vWETsQXBmu4" data-video-title="Dr. Noor Ul Ain introduction video" data-shorts-url="https://www.youtube.com/shorts/vWETsQXBmu4">
-            <img src="assets/images/dr-noor.jpg" alt="Dr. Noor Ul Ain - Plastic &amp; Reconstructive Surgeon at Aurea Plast" class="doctor-card__img" loading="lazy" decoding="async">
+            <picture class="doctor-card__pic">
+              <source type="image/webp" srcset="assets/images/dr-noor-sm.webp 450w, assets/images/dr-noor.webp 819w" sizes="(max-width: 600px) 450px, 450px">
+              <img src="assets/images/dr-noor.jpg" alt="Dr. Noor Ul Ain - Plastic &amp; Reconstructive Surgeon at Aurea Plast" class="doctor-card__img" loading="lazy" decoding="async" width="450" height="800">
+            </picture>
             <div class="doctor-card__gradient" aria-hidden="true"></div>
             <button type="button" class="doctor-card__play-btn" aria-label="Play video: Dr. Noor Ul Ain">
               <span class="doctor-card__play-icon" aria-hidden="true">
@@ -321,7 +339,10 @@
         </div>
         <div class="card doctor-card gsap-rise">
           <div class="doctor-card__media" data-video-id="JwFgYlbj0tY" data-video-title="Dr. Nasir Rafiq introduction video" data-shorts-url="https://www.youtube.com/shorts/JwFgYlbj0tY">
-            <img src="assets/images/dr-nasir.jpg" alt="Dr. Nasir Rafiq - Aesthetic Physician at Aurea Plast" class="doctor-card__img" loading="lazy" decoding="async">
+            <picture class="doctor-card__pic">
+              <source type="image/webp" srcset="assets/images/dr-nasir-sm.webp 450w, assets/images/dr-nasir.webp 819w" sizes="(max-width: 600px) 450px, 450px">
+              <img src="assets/images/dr-nasir.jpg" alt="Dr. Nasir Rafiq - Aesthetic Physician at Aurea Plast" class="doctor-card__img" loading="lazy" decoding="async" width="450" height="800">
+            </picture>
             <div class="doctor-card__gradient" aria-hidden="true"></div>
             <button type="button" class="doctor-card__play-btn" aria-label="Play video: Dr. Nasir Rafiq">
               <span class="doctor-card__play-icon" aria-hidden="true">
@@ -381,7 +402,10 @@
             <div class="gallery">
         <a class="gallery-item is-landscape" href="assets/images/clinic/reception-wide-v2.jpg" data-lightbox data-caption="Front desk" data-alt="Aurea Plast front desk and wood feature wall">
           <div class="gallery-item__frame">
-            <img class="clinic-photo" src="assets/images/clinic/reception-wide-v2.jpg" alt="Aurea Plast front desk and wood feature wall" width="1200" height="900" loading="lazy" decoding="async">
+            <picture>
+              <source type="image/webp" srcset="assets/images/clinic/reception-wide-v2.webp">
+              <img class="clinic-photo" src="assets/images/clinic/reception-wide-v2.jpg" alt="Aurea Plast front desk and wood feature wall" width="1200" height="900" loading="lazy" decoding="async">
+            </picture>
             <span class="gallery-item__caption">Front desk</span>
           </div>
         </a>
@@ -396,7 +420,10 @@
         </a>
         <a class="gallery-item is-portrait" href="assets/images/clinic/waiting-sofas-v2.jpg" data-lightbox data-caption="Waiting lounge" data-alt="Aurea Plast waiting lounge">
           <div class="gallery-item__frame">
-            <img class="clinic-photo" src="assets/images/clinic/waiting-sofas-v2.jpg" alt="Aurea Plast waiting lounge" width="900" height="1200" loading="lazy" decoding="async">
+            <picture>
+              <source type="image/webp" srcset="assets/images/clinic/waiting-sofas-v2.webp">
+              <img class="clinic-photo" src="assets/images/clinic/waiting-sofas-v2.jpg" alt="Aurea Plast waiting lounge" width="900" height="1200" loading="lazy" decoding="async">
+            </picture>
             <span class="gallery-item__caption">Waiting lounge</span>
           </div>
         </a>
@@ -508,7 +535,10 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <img src="assets/images/logo.png" alt="Aurea Plast Aesthetic and Reconstructive Surgery Clinic logo" class="brand-logo" width="160" height="40" decoding="async" style="height:40px;width:auto;margin-bottom:12px;">
+        <picture>
+          <source type="image/webp" srcset="assets/images/logo-sm.webp 160w, assets/images/logo.webp 240w" sizes="160px">
+          <img src="assets/images/logo.png" alt="Aurea Plast Aesthetic and Reconstructive Surgery Clinic logo" class="brand-logo" width="160" height="40" decoding="async" style="height:40px;width:auto;margin-bottom:12px;">
+        </picture>
         <p>A boutique plastic, reconstructive &amp; aesthetic surgery practice in Lahore, led by Dr. Noor Ul Ain and Dr. Nasir Rafiq.</p>
         <div class="footer-social">
           <a href="https://www.instagram.com/aureaplast/" target="_blank" rel="noopener noreferrer" aria-label="Visit Aurea Plast on Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -560,18 +590,26 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
-<script src="js/data.js?v=20260731173000" defer></script>
-<script src="js/script.js?v=202610200155" defer></script>
-<script src="js/clinic-gallery.js?v=20260731173000" defer></script>
-<script src="js/animations.js?v=20260731173000" defer></script>
-<script src="https://elfsightcdn.com/platform.js" async></script>
+<script src="js/data.min.js?v=202610222200" defer></script>
+<script src="js/script.min.js?v=202610222200" defer></script>
+<script src="js/clinic-gallery.min.js?v=202610222200" defer></script>
+<script src="js/animations.min.js?v=202610222200" defer></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var widget = document.querySelector('.elfsight-app-bde6f9c1-8cab-46d1-b220-f0543d2dbba8');
     var skeleton = document.getElementById('reviewsSkeleton');
     var fallback = document.getElementById('reviewsFallback');
     if (!widget) return;
+
+    var elfsightLoaded = false;
+    function loadElfsight() {
+      if (elfsightLoaded) return;
+      elfsightLoaded = true;
+      var s = document.createElement('script');
+      s.src = 'https://elfsightcdn.com/platform.js';
+      s.async = true;
+      document.body.appendChild(s);
+    }
 
     var loaded = false;
     function hideSkeleton() {
@@ -614,6 +652,7 @@
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
               io.disconnect();
+              loadElfsight();
               setTimeout(function() {
                 if (!loaded && widget.children.length === 0) {
                   showFallback();
@@ -621,9 +660,10 @@
               }, 8000);
             }
           });
-        }, { rootMargin: '300px' });
+        }, { rootMargin: '350px' });
         io.observe(widget);
       } else {
+        loadElfsight();
         setTimeout(function() {
           if (!loaded && widget.children.length === 0) {
             showFallback();
