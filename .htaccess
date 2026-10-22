@@ -51,8 +51,8 @@
   ExpiresActive On
   ExpiresDefault "access plus 1 week"
   ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType text/css "access plus 1 year"
-  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
   ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
@@ -62,13 +62,20 @@
 </IfModule>
 
 <IfModule mod_headers.c>
-  # Long-cache immutable static assets
-  <FilesMatch "\.(css|js|jpg|jpeg|png|webp|gif|ico|svg|woff2?)$">
+  # Images and webfonts: long-lived immutable cache
+  <FilesMatch "\.(jpg|jpeg|png|webp|gif|ico|svg|woff2?)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
-  <FilesMatch "\.(html)$">
-    Header set Cache-Control "public, max-age=0, must-revalidate"
+  # CSS and JS: cached with revalidation so new builds take effect immediately
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=86400, stale-while-revalidate=86400"
   </FilesMatch>
+  # All HTML documents (including root /): never cache stale HTML
+  Header set Cache-Control "no-cache, no-store, must-revalidate" "expr=%{CONTENT_TYPE} =~ m#text/html#"
+  Header set Pragma "no-cache" "expr=%{CONTENT_TYPE} =~ m#text/html#"
+  Header set Expires "0" "expr=%{CONTENT_TYPE} =~ m#text/html#"
+  Header set X-LiteSpeed-Purge "*"
+
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
