@@ -110,13 +110,12 @@ def main():
             minified_map[cf] = min_content
             print(f"CSS: {cf} ({len(content)} bytes) -> {os.path.basename(out_path)} ({len(min_content)} bytes)")
 
-    # Build consolidated site.min.css containing icons + style + clinic
-    # components.min.css remains standalone for appointment & success-stories
+    # Build consolidated site.min.css containing style + components + clinic
     site_parts = []
-    if icons_css:
-        site_parts.append(icons_css)
     if 'style.css' in minified_map:
         site_parts.append(minified_map['style.css'])
+    if 'components.css' in minified_map:
+        site_parts.append(minified_map['components.css'])
     if 'clinic.css' in minified_map:
         site_parts.append(minified_map['clinic.css'])
 
@@ -124,7 +123,7 @@ def main():
     bundle_path = os.path.join(css_dir, 'site.min.css')
     with open(bundle_path, 'w', encoding='utf-8') as f:
         f.write(site_bundle)
-    print(f"Consolidated Bundle: site.min.css ({len(site_bundle)} bytes, includes icons + style + clinic)")
+    print(f"Consolidated Bundle: site.min.css ({len(site_bundle)} bytes, includes style + components + clinic)")
 
     # Minify JS files
     js_files = ['script.js', 'animations.js', 'data.js', 'forms.js', 'clinic-gallery.js', 'emailjs-config.js']
