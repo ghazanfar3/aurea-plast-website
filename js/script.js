@@ -653,35 +653,43 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
   }
 
-  renderProcGrid({
-    gridSel: '#plasticGrid', data: PLASTIC_SURGERY_PROCEDURES, categories: PLASTIC_SURGERY_CATEGORIES,
-    filterSel: '#plasticFilters', searchSel: '#plasticSearch', noResultsSel: '#plasticNoResults'
-  });
-  renderProcGrid({
-    gridSel: '#aestheticGrid', data: AESTHETIC_PROCEDURES, categories: AESTHETIC_CATEGORIES,
-    filterSel: '#aestheticFilters', searchSel: '#aestheticSearch', noResultsSel: '#aestheticNoResults'
-  });
+  if (typeof PLASTIC_SURGERY_PROCEDURES !== 'undefined' && typeof PLASTIC_SURGERY_CATEGORIES !== 'undefined') {
+    renderProcGrid({
+      gridSel: '#plasticGrid', data: PLASTIC_SURGERY_PROCEDURES, categories: PLASTIC_SURGERY_CATEGORIES,
+      filterSel: '#plasticFilters', searchSel: '#plasticSearch', noResultsSel: '#plasticNoResults'
+    });
+  }
+  if (typeof AESTHETIC_PROCEDURES !== 'undefined' && typeof AESTHETIC_CATEGORIES !== 'undefined') {
+    renderProcGrid({
+      gridSel: '#aestheticGrid', data: AESTHETIC_PROCEDURES, categories: AESTHETIC_CATEGORIES,
+      filterSel: '#aestheticFilters', searchSel: '#aestheticSearch', noResultsSel: '#aestheticNoResults'
+    });
+  }
 
   /* Home page: featured previews (first 4 of each) */
   const featPlastic = document.querySelector('#featPlasticGrid');
-  if (featPlastic) {
-    featPlastic.innerHTML = PLASTIC_SURGERY_PROCEDURES.slice(0, 4).map(item => `
-      <div class="card feat-card reveal">
-        <div class="icon-tile">${iconWrap(item.icon)}</div>
-        <h4>${item.name}</h4>
-        <p>${item.overview.slice(0, 86)}…</p>
-        <a class="btn-ghost" href="/plastic-surgery">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-      </div>`).join('');
+  if (featPlastic && typeof PLASTIC_SURGERY_PROCEDURES !== 'undefined') {
+    if (!featPlastic.children.length) {
+      featPlastic.innerHTML = PLASTIC_SURGERY_PROCEDURES.slice(0, 4).map(item => `
+        <div class="card feat-card reveal in">
+          <div class="icon-tile">${iconWrap(item.icon)}</div>
+          <h4>${item.name}</h4>
+          <p>${item.overview.slice(0, 86)}…</p>
+          <a class="btn-ghost" href="/plastic-surgery">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+        </div>`).join('');
+    }
   }
   const featAesthetic = document.querySelector('#featAestheticGrid');
-  if (featAesthetic) {
-    featAesthetic.innerHTML = AESTHETIC_PROCEDURES.slice(0, 4).map(item => `
-      <div class="card feat-card reveal">
-        <div class="icon-tile">${iconWrap(item.icon)}</div>
-        <h4>${item.name}</h4>
-        <p>${item.overview.slice(0, 86)}…</p>
-        <a class="btn-ghost" href="/aesthetic-procedures">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-      </div>`).join('');
+  if (featAesthetic && typeof AESTHETIC_PROCEDURES !== 'undefined') {
+    if (!featAesthetic.children.length) {
+      featAesthetic.innerHTML = AESTHETIC_PROCEDURES.slice(0, 4).map(item => `
+        <div class="card feat-card reveal in">
+          <div class="icon-tile">${iconWrap(item.icon)}</div>
+          <h4>${item.name}</h4>
+          <p>${item.overview.slice(0, 86)}…</p>
+          <a class="btn-ghost" href="/aesthetic-procedures">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+        </div>`).join('');
+    }
   }
 
   /* ------------------------------ Procedures Tab Switcher ------------------------------ */
@@ -757,6 +765,7 @@ document.addEventListener('DOMContentLoaded', () => {
           requestAnimationFrame(() => {
             targetPanel.classList.remove('is-animating-in');
             targetPanel.classList.add('is-active');
+            targetPanel.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
           });
         }, 150);
       }
